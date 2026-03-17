@@ -1,1 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DADDY'S NAMING LAB | Brand Name Stress-Test</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--y:#dbe120;--g:#303030;--d:#0a0a0a;--o:#ff6b35;--r:#ff3535}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--d);color:#fff;font-family:'Space Mono',monospace;min-height:100vh;overflow-x:hidden}
+.arch{font-family:'Archivo Black',sans-serif;font-style:italic;text-transform:uppercase;letter-spacing:-.02em}
+#si{display:flex}#sr{display:none}
+.pw{width:100%;min-height:100vh;display:flex;align-items:flex-start;justify-content:center;padding:32px 16px}
+.inn{width:100%;max-width:720px}.innw{width:100%;max-width:860px}
+.card{background:rgba(18,18,18,.98);border:1px solid rgba(219,225,32,.15);border-radius:4px;padding:2.5rem;position:relative;overflow:hidden}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--y),transparent)}
+.cardd{background:rgba(18,18,18,.98);border:1px dashed rgba(219,225,32,.35);border-radius:4px;padding:2rem}
+input,select{display:block;width:100%;background:var(--g);border:1px solid rgba(219,225,32,.2);color:#fff;font-family:'Space Mono',monospace;font-size:14px;padding:15px 18px;border-radius:2px;outline:none;transition:border-color .2s,box-shadow .2s;-webkit-appearance:none;appearance:none}
+input::placeholder{color:rgba(255,255,255,.28)}
+input:focus,select:focus{border-color:var(--y);background:rgba(219,225,32,.04);box-shadow:0 0 0 3px rgba(219,225,32,.1)}
+select{cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath fill='%23dbe120' d='M5 7L1 3h8z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center;padding-right:44px}
+select option{background:var(--g)}
+.btnp{display:block;width:100%;background:var(--y);color:#000;font-family:'Space Mono',monospace;font-weight:700;font-size:15px;text-transform:uppercase;font-style:italic;padding:18px;border:none;border-radius:2px;cursor:pointer;transition:background .2s,transform .15s,box-shadow .2s;box-shadow:0 0 28px rgba(219,225,32,.35)}
+.btnp:hover:not(:disabled){background:#fff;transform:translateY(-2px)}
+.btnp:disabled{opacity:.55;cursor:not-allowed;transform:none}
+.btns{background:transparent;color:#fff;font-family:'Space Mono',monospace;font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.1em;padding:15px 20px;border:2px solid rgba(219,225,32,.3);border-radius:2px;cursor:pointer;transition:background .2s,transform .15s}
+.btns:hover{background:rgba(219,225,32,.08);transform:translateY(-2px)}
+.btnw{background:#fff;color:#000;font-family:'Space Mono',monospace;font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.1em;padding:15px 20px;border:none;border-radius:2px;cursor:pointer;transition:background .2s,transform .15s}
+.btnw:hover{background:var(--y);transform:translateY(-2px)}
+.fl{display:block;font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--y);margin-bottom:10px}
+.hl{font-size:9px;opacity:.3;margin-top:7px;margin-left:2px}
+.ab{display:flex;align-items:center;gap:12px;margin-bottom:20px}
+.ab .bar{width:4px;height:24px;background:var(--y);flex-shrink:0}
+.ab .barlbl{font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--y);font-family:'Space Mono',monospace}
+.srow{margin-bottom:24px}
+.shdr{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:6px}
+.sdim{font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--y)}
+.snw{display:flex;align-items:baseline;gap:4px}
+.snum{font-family:'Archivo Black',sans-serif;font-style:italic;font-size:2.2rem;line-height:1;color:#fff}
+.sden{font-size:13px;opacity:.3}
+.sbt{height:4px;background:rgba(255,255,255,.07);border-radius:2px;overflow:hidden}
+.sbf{height:100%;background:var(--y);border-radius:2px;width:0%;transition:width 1.1s cubic-bezier(.16,1,.3,1)}
+.sdiag{font-size:12px;line-height:1.65;color:rgba(255,255,255,.62);margin-top:7px}
+.totblk{text-align:center;padding:32px 0;border-top:1px solid rgba(219,225,32,.1);border-bottom:1px solid rgba(219,225,32,.1);margin:32px 0}
+.totdisp{display:flex;align-items:flex-end;justify-content:center;gap:10px}
+.totnum{font-family:'Archivo Black',sans-serif;font-style:italic;font-size:clamp(3.5rem,10vw,5.5rem);line-height:1}
+.totden{font-size:1.5rem;opacity:.3;font-weight:700;padding-bottom:6px}
+.tierlbl{font-family:'Archivo Black',sans-serif;font-style:italic;font-size:clamp(1.2rem,3.5vw,1.8rem);text-transform:uppercase;letter-spacing:-.02em;margin-top:10px}
+.vtxt{font-size:13px;line-height:1.85;color:rgba(255,255,255,.82);white-space:pre-wrap}
+.cline{font-size:14px;font-style:italic;border-left:2px solid var(--y);padding-left:16px;line-height:1.7;color:rgba(255,255,255,.9);margin-top:20px;padding-top:4px}
+.dquote{font-size:11px;opacity:.5;font-style:italic;border-left:2px solid var(--y);padding-left:12px;margin:14px 0;line-height:1.6}
+.nbadge{display:inline-block;font-family:'Archivo Black',sans-serif;font-style:italic;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--y);background:rgba(219,225,32,.07);border:1px solid rgba(219,225,32,.28);padding:4px 12px;border-radius:2px}
+.ctablk{border:1px solid rgba(219,225,32,.18);background:rgba(219,225,32,.025);border-radius:4px;padding:2.5rem;text-align:center}
+.ctalink{display:inline-block;background:var(--y);color:#000;font-family:'Space Mono',monospace;font-weight:700;font-style:italic;font-size:14px;text-transform:uppercase;text-decoration:none;padding:16px 44px;border-radius:2px;box-shadow:0 0 28px rgba(219,225,32,.35);transition:background .2s,transform .15s}
+.ctalink:hover{background:#fff;transform:translateY(-2px)}
+.wm{font-family:'Archivo Black',sans-serif;font-style:italic;text-transform:uppercase;letter-spacing:-.02em;opacity:.12;font-size:10px}
+.errbox{display:none;border:1px solid rgba(255,53,53,.4);background:rgba(255,53,53,.05);padding:14px 16px;border-radius:2px;color:var(--y);font-size:12px;line-height:1.65;margin-top:16px}
+.spin{display:inline-block;width:13px;height:13px;border:2px solid rgba(0,0,0,.25);border-top-color:#000;border-radius:50%;animation:sp .7s linear infinite;vertical-align:middle;margin-right:8px}
+.caparea{background:linear-gradient(160deg,#0e0e0e 0%,#141414 100%);border:2px solid var(--y);border-radius:4px;padding:clamp(1.5rem,5vw,3rem)}
+#scard{position:fixed;left:-9999px;top:0;width:1080px;height:1350px;background:var(--d);padding:80px;display:flex;flex-direction:column;justify-content:space-between;font-family:'Space Mono',monospace}
+@keyframes sp{to{transform:rotate(360deg)}}
+@keyframes fu{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+.fu{animation:fu .55s ease both}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media(max-width:580px){.g3{grid-template-columns:1fr}}
+@media(max-width:640px){.card{padding:1.5rem}.cardd{padding:1.25rem}.snum{font-size:1.8rem}}
+</style>
+</head>
+<body>
 
+<!-- SOCIAL CARD (off-screen, PNG export only) -->
+<div id="scard">
+  <div>
+    <p style="font-size:13px;letter-spacing:.35em;color:rgba(219,225,32,.45);text-transform:uppercase;margin-bottom:20px">DADDY'S NAMING LAB</p>
+    <p style="font-family:'Archivo Black',sans-serif;font-style:italic;text-transform:uppercase;font-size:26px;color:rgba(255,255,255,.35);margin-bottom:14px">STRESS-TEST RESULT FOR</p>
+    <p id="sc-name" style="font-family:'Archivo Black',sans-serif;font-style:italic;text-transform:uppercase;font-size:88px;line-height:.88;color:#fff;letter-spacing:-.03em;margin-bottom:56px;word-break:break-word">NAME</p>
+  </div>
+  <div style="border-top:1px solid rgba(219,225,32,.18);padding-top:56px;margin-bottom:56px">
+    <p style="font-size:16px;color:rgba(255,255,255,.35);letter-spacing:.25em;text-transform:uppercase;margin-bottom:18px">TOTAL SCORE</p>
+    <p id="sc-score" style="font-family:'Archivo Black',sans-serif;font-style:italic;font-size:150px;line-height:.82;color:#dbe120;letter-spacing:-.04em">-/50</p>
+    <p id="sc-tier" style="font-family:'Archivo Black',sans-serif;font-style:italic;font-size:48px;text-transform:uppercase;letter-spacing:-.02em;margin-top:14px;color:#fff">-</p>
+  </div>
+  <div style="border-left:3px solid #dbe120;padding-left:30px;margin-bottom:56px">
+    <p id="sc-closing" style="font-size:22px;line-height:1.55;color:#fff;font-style:italic">-</p>
+  </div>
+  <div style="display:flex;justify-content:space-between;align-items:center">
+    <p style="font-family:'Archivo Black',sans-serif;font-style:italic;text-transform:uppercase;font-size:20px;color:rgba(219,225,32,.18)">YOUR FREELANCE DADDY</p>
+    <p style="font-size:11px;color:rgba(255,255,255,.18);letter-spacing:.2em">BRAND NAME STRESS-TEST</p>
+  </div>
+</div>
+
+<!-- SCREEN 1: INPUT -->
+<div id="si" class="pw">
+  <div class="inn fu">
+    <div style="margin-bottom:24px">
+      <a href="#" style="font-size:10px;text-transform:uppercase;letter-spacing:.22em;opacity:.28;text-decoration:none;color:#fff">← Daddy's Simulator</a>
+    </div>
+    <div class="card">
+      <header style="text-align:center;padding-bottom:28px;border-bottom:1px solid rgba(255,255,255,.05);margin-bottom:32px">
+        <p style="font-size:9px;text-transform:uppercase;letter-spacing:.42em;opacity:.28;margin-bottom:14px">Your Freelance Daddy Presents</p>
+        <h1 class="arch" style="font-size:clamp(2.6rem,9vw,4.8rem);line-height:.87">Daddy's<br><span style="color:var(--y)">Naming Lab</span></h1>
+        <p class="dquote">"Is your name working or wasting you?"</p>
+        <div style="display:flex;align-items:center;justify-content:center;gap:14px;margin-top:10px">
+          <div style="height:1px;width:44px;background:linear-gradient(to right,transparent,rgba(219,225,32,.25))"></div>
+          <span style="font-size:8px;text-transform:uppercase;letter-spacing:.32em;opacity:.35">Brand Name Stress-Test</span>
+          <div style="height:1px;width:44px;background:linear-gradient(to left,transparent,rgba(219,225,32,.25))"></div>
+        </div>
+      </header>
+      <div style="display:flex;flex-direction:column;gap:22px">
+        <div>
+          <label class="fl">01. What's the name?</label>
+          <input id="inp-name" type="text" placeholder="Your brand name, business name, or product name...">
+          <p class="hl">The name you're using now or thinking about using</p>
+        </div>
+        <div>
+          <label class="fl">02. What do you do?</label>
+          <input id="inp-what" type="text" placeholder="Ex: brand identity design, coaching, SaaS tool, e-commerce store...">
+          <p class="hl">Your industry, service, or product category</p>
+        </div>
+        <div>
+          <label class="fl">03. Who is it for?</label>
+          <input id="inp-who" type="text" placeholder="Ex: early-stage founders, luxury fashion brands, overwhelmed freelancers...">
+          <p class="hl">Be specific — not everyone</p>
+        </div>
+        <div>
+          <label class="fl">04. What should your name feel like?</label>
+          <select id="inp-feel">
+            <option value="PREMIUM">PREMIUM — Sophisticated, elevated, exclusive</option>
+            <option value="BOLD">BOLD — Energetic, disruptive, loud</option>
+            <option value="SMART">SMART — Intellectual, credible, authoritative</option>
+            <option value="WARM">WARM — Approachable, human, trustworthy</option>
+            <option value="MYSTERIOUS">MYSTERIOUS — Intriguing, edgy, unconventional</option>
+            <option value="DIRECT">DIRECT — Clear, no-nonsense, functional</option>
+          </select>
+          <p class="hl">The emotional register your brand should occupy</p>
+        </div>
+      </div>
+      <div id="errbox" class="errbox"></div>
+      <div style="margin-top:32px">
+        <button id="run-btn" class="btnp" onclick="runTest()">Run The Test</button>
+      </div>
+      <p style="text-align:center;font-size:9px;opacity:.18;text-transform:uppercase;letter-spacing:.22em;margin-top:16px">Powered by Daddy's Methodology x Gemini AI</p>
+    </div>
+  </div>
+</div>
+
+<!-- SCREEN 2: RESULTS -->
+<div id="sr" class="pw">
+  <div class="innw">
+    <div style="margin-bottom:24px">
+      <a href="#" style="font-size:10px;text-transform:uppercase;letter-spacing:.22em;opacity:.28;text-decoration:none;color:#fff">← Daddy's Simulator</a>
+    </div>
+    <div id="capture" class="caparea fu">
+      <!-- Result header -->
+      <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-start;gap:16px;padding-bottom:24px;border-bottom:1px solid rgba(219,225,32,.18);margin-bottom:36px">
+        <div>
+          <h2 class="arch" style="font-size:clamp(2rem,5vw,3rem);line-height:.9;margin-bottom:12px">Daddy's<br><span style="color:var(--y)">Verdict</span></h2>
+          <div id="res-name-badge" class="nbadge" style="margin-bottom:8px"></div>
+          <p style="font-size:9px;opacity:.35;text-transform:uppercase;letter-spacing:.28em;margin-top:8px">Generated <span id="res-date"></span></p>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px;text-align:right">
+          <span style="font-size:10px;font-weight:700;border:1px solid rgba(219,225,32,.25);padding:5px 12px;opacity:.65;background:rgba(219,225,32,.04)">BRAND NAME STRESS-TEST</span>
+          <span id="res-feel-badge" style="font-size:9px;opacity:.28;text-transform:uppercase;letter-spacing:.12em"></span>
+        </div>
+      </div>
+      <!-- Score grid -->
+      <div style="margin-bottom:16px">
+        <div class="ab"><div class="bar"></div><span class="barlbl">The 5-Dimension Breakdown</span></div>
+        <div id="score-grid"></div>
+      </div>
+      <!-- Total -->
+      <div class="totblk">
+        <p class="fl" style="margin-bottom:14px">Total Score</p>
+        <div class="totdisp">
+          <span id="res-total" class="totnum arch">-</span>
+          <span class="totden">/ 50</span>
+        </div>
+        <p id="res-tier" class="tierlbl"></p>
+      </div>
+      <!-- Verdict -->
+      <div style="margin-bottom:28px">
+        <div class="ab"><div class="bar"></div><span class="barlbl">Daddy's Verdict</span></div>
+        <div class="card">
+          <p id="res-verdict" class="vtxt"></p>
+          <div style="margin-top:20px;padding-top:18px;border-top:1px solid rgba(255,255,255,.05)">
+            <p style="font-size:9px;text-transform:uppercase;letter-spacing:.22em;opacity:.28;margin-bottom:10px">Daddy's Closing Line</p>
+            <p id="res-closing" class="cline"></p>
+          </div>
+        </div>
+      </div>
+      <!-- Name Direction -->
+      <div id="res-dir-wrap" style="display:none;margin-bottom:28px">
+        <div class="ab"><div class="bar" style="opacity:.5"></div><span class="barlbl" style="opacity:.65">Name Direction</span></div>
+        <div class="cardd">
+          <p style="font-size:9px;text-transform:uppercase;letter-spacing:.2em;opacity:.35;margin-bottom:14px">Alternative directions to consider</p>
+          <p id="res-direction" class="vtxt" style="color:rgba(255,255,255,.7)"></p>
+        </div>
+      </div>
+      <!-- Footer -->
+      <div style="display:flex;justify-content:space-between;align-items:center;padding-top:20px;border-top:1px solid rgba(255,255,255,.04)">
+        <p class="wm">Your Freelance Daddy</p>
+        <div style="display:flex;align-items:center;gap:10px">
+          <span style="font-size:8px;text-transform:uppercase;letter-spacing:.18em;opacity:.18">Powered by Daddy's Methodology</span>
+          <span style="opacity:.35;font-size:12px">&#9889;</span>
+        </div>
+      </div>
+    </div>
+    <!-- Buttons -->
+    <div class="g3" style="margin-top:24px">
+      <button class="btnw" onclick="copyVerdict(this)">Copy Verdict</button>
+      <button class="btns" onclick="downloadPNG()">Save Social Card</button>
+      <button class="btns" onclick="generatePDF()">Download PDF</button>
+    </div>
+    <!-- CTA -->
+    <div class="ctablk" style="margin-top:24px">
+      <p class="fl" style="margin-bottom:8px">Daddy's Verdict On Your Name Is Free.</p>
+      <p style="font-size:13px;opacity:.45;line-height:1.7;margin-bottom:24px;max-width:500px;margin-left:auto;margin-right:auto">The full naming system, the strategy behind it, and the brand identity that makes it stick — that's the real work.</p>
+      <a href="mailto:borjanisajlovski@gmail.com" class="ctalink">Work With Daddy</a>
+    </div>
+    <!-- Start over -->
+    <div style="text-align:center;margin-top:20px;padding-bottom:32px">
+      <button onclick="startOver()" style="background:none;border:none;color:rgba(255,255,255,.25);font-family:'Space Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:.22em;cursor:pointer;padding:10px 20px"
+        onmouseover="this.style.color='rgba(255,255,255,.6)'"
+        onmouseout="this.style.color='rgba(255,255,255,.25)'">
+        Start Over
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── CONFIG ──────────────────────────────────────────────────────────
+// Your Gemini API key. Get a free one at aistudio.google.com
+var GK = 'AIzaSyBH3AobdEzvmMeSjTPqjQQZyw0exnM1lI8';
+
+// Models to try in order — stops at the first one that works
+var GM = [
+  'gemini-2.0-flash',
+  'gemini-2.0-flash-lite',
+  'gemini-1.5-flash-002',
+  'gemini-1.5-flash-001',
+  'gemini-1.5-pro'
+];
+
+// ── STATE ────────────────────────────────────────────────────────────
+var S = { raw:'', name:'', feel:'', timer:null, idx:0 };
+
+var LM = [
+  'Daddy Is Thinking...',
+  'Running The Test...',
+  'Crunching The Numbers...',
+  'Almost There...',
+  'Writing Your Verdict...'
+];
+
+var DIMS = ['MEMORABILITY','CLARITY','DIFFERENTIATION','TONE FIT','LONGEVITY'];
+
+var ALL_H = ['MEMORABILITY','CLARITY','DIFFERENTIATION','TONE FIT','LONGEVITY',
+             'TOTAL SCORE','VERDICT','NAME DIRECTION','CLOSING LINE'];
+
+// ── SCREENS ──────────────────────────────────────────────────────────
+function showScreen(id) {
+  document.getElementById('si').style.display = id==='i' ? 'flex' : 'none';
+  document.getElementById('sr').style.display = id==='r' ? 'flex' : 'none';
+  window.scrollTo(0,0);
+}
+
+// ── LOADING ──────────────────────────────────────────────────────────
+function setLoad(on) {
+  var btn = document.getElementById('run-btn');
+  var flds = document.querySelectorAll('#si input, #si select');
+  var i;
+  if (on) {
+    S.idx = 0;
+    btn.innerHTML = '<span class="spin"></span>' + LM[0];
+    btn.disabled = true;
+    for (i=0;i<flds.length;i++) flds[i].disabled = true;
+    S.timer = setInterval(function(){
+      S.idx = (S.idx+1) % LM.length;
+      btn.innerHTML = '<span class="spin"></span>' + LM[S.idx];
+    }, 1800);
+  } else {
+    clearInterval(S.timer);
+    btn.innerHTML = 'Run The Test';
+    btn.disabled = false;
+    for (i=0;i<flds.length;i++) flds[i].disabled = false;
+  }
+}
+
+// ── ERRORS ───────────────────────────────────────────────────────────
+function showErr(msg) {
+  var b = document.getElementById('errbox');
+  b.textContent = msg;
+  b.style.display = 'block';
+}
+function clearErr() {
+  var b = document.getElementById('errbox');
+  b.textContent = '';
+  b.style.display = 'none';
+}
+
+// ── PROMPT ───────────────────────────────────────────────────────────
+function buildPrompt(name, what, who, feel) {
+  var fd = {
+    PREMIUM:'sophisticated, elevated, and exclusive',
+    BOLD:'energetic, disruptive, and loud',
+    SMART:'intellectual, credible, and authoritative',
+    WARM:'approachable, human, and trustworthy',
+    MYSTERIOUS:'intriguing, edgy, and unconventional',
+    DIRECT:'clear, no-nonsense, and functional'
+  };
+  return 'You are a brutally honest brand strategist called Daddy with 8 years naming brands. '
+    + 'Short sharp sentences. No jargon. Never soften hard truths. Always reference the actual name.\n\n'
+    + 'Stress-test this brand name:\n'
+    + 'NAME: ' + name + '\n'
+    + 'WHAT THEY DO: ' + what + '\n'
+    + 'WHO IT IS FOR: ' + who + '\n'
+    + 'DESIRED FEELING: ' + (fd[feel]||feel) + '\n\n'
+    + 'Evaluate across 5 dimensions. For each: write the header, Score: X/10, one diagnosis sentence, micro-fix if score under 7.\n\n'
+    + 'Use EXACTLY this format:\n'
+    + 'MEMORABILITY\nScore: X/10\n[diagnosis]\n[micro-fix if needed]\n\n'
+    + 'CLARITY\nScore: X/10\n[diagnosis]\n[micro-fix if needed]\n\n'
+    + 'DIFFERENTIATION\nScore: X/10\n[diagnosis]\n[micro-fix if needed]\n\n'
+    + 'TONE FIT\nScore: X/10\n[diagnosis]\n[micro-fix if needed]\n\n'
+    + 'LONGEVITY\nScore: X/10\n[diagnosis]\n[micro-fix if needed]\n\n'
+    + 'TOTAL SCORE\n[number]/50\n\n'
+    + 'VERDICT\n[one sentence: asset or liability]\n[single most urgent fix]\n\n'
+    + 'NAME DIRECTION\n[If under 35: 3 conceptual directions, one sentence each. If 35+: one sentence to strengthen the current name.]\n\n'
+    + 'CLOSING LINE\n[one punchy sentence in Daddy voice, personal to this situation]\n\n'
+    + 'Plain text only. No asterisks. No hashtags. No markdown. Under 500 words.';
+}
+
+// ── API CALL ─────────────────────────────────────────────────────────
+function runTest() {
+  var name = document.getElementById('inp-name').value.trim();
+  var what = document.getElementById('inp-what').value.trim();
+  var who  = document.getElementById('inp-who').value.trim();
+  var feel = document.getElementById('inp-feel').value;
+  if (!name) { showErr('Field 01 is empty. Give Daddy a name to test.'); return; }
+  if (!what) { showErr('Field 02 is empty. What does this business do?'); return; }
+  if (!who)  { showErr('Field 03 is empty. Who is this for?'); return; }
+  S.name = name; S.feel = feel;
+  clearErr();
+  setLoad(true);
+  tryModel(0, buildPrompt(name, what, who, feel));
+}
+
+function tryModel(mi, prompt) {
+  if (mi >= GM.length) {
+    setLoad(false);
+    showErr('All models failed. Make sure your Gemini API key is active at aistudio.google.com and this page is hosted on GitHub Pages (not opened as a local file).');
+    return;
+  }
+  var url = 'https://generativelanguage.googleapis.com/v1beta/models/' + GM[mi] + ':generateContent?key=' + GK;
+  fetch(url, {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({
+      contents:[{role:'user',parts:[{text:prompt}]}],
+      generationConfig:{temperature:0.82,maxOutputTokens:1400}
+    })
+  })
+  .then(function(res){ return res.json().then(function(d){ return {s:res.status,d:d}; }); })
+  .then(function(r) {
+    var em = (r.d&&r.d.error&&r.d.error.message) ? r.d.error.message : '';
+    // Model not found — try next
+    if (r.s===404 || em.indexOf('not found')!==-1 || em.indexOf('not supported')!==-1) {
+      tryModel(mi+1, prompt); return;
+    }
+    // Quota
+    if (r.s===429 || em.indexOf('quota')!==-1 || em.indexOf('RESOURCE_EXHAUSTED')!==-1) {
+      setLoad(false);
+      showErr('Quota exceeded. You have hit the daily free limit. Wait 24 hours or create a new API key at aistudio.google.com.');
+      return;
+    }
+    // Auth
+    if (r.s===400 || r.s===403) {
+      setLoad(false);
+      showErr('API key error (' + r.s + '): ' + em);
+      return;
+    }
+    if (r.s!==200) {
+      setLoad(false);
+      showErr('API error (' + r.s + '): ' + (em||'Unknown. Try again.'));
+      return;
+    }
+    var txt = '';
+    try { txt = r.d.candidates[0].content.parts[0].text; } catch(e) { txt=''; }
+    if (!txt) { setLoad(false); showErr('Empty response from Gemini. Try again.'); return; }
+    S.raw = txt.replace(/\*\*/g,'').replace(/\*/g,'').replace(/^#{1,6} ?/gm,'').replace(/\n{3,}/g,'\n\n').trim();
+    setLoad(false);
+    renderResult();
+  })
+  .catch(function(err) {
+    setLoad(false);
+    showErr('Network error: ' + err.message + '. Make sure this page is hosted on GitHub Pages — the Gemini API does not allow calls from local files.');
+  });
+}
+
+// ── PARSING ──────────────────────────────────────────────────────────
+function getBlock(text, hdr) {
+  var up = text.toUpperCase();
+  var hi = up.indexOf(hdr.toUpperCase());
+  if (hi===-1) return '';
+  var end = text.length;
+  for (var i=0;i<ALL_H.length;i++) {
+    if (ALL_H[i].toUpperCase()===hdr.toUpperCase()) continue;
+    var p = up.indexOf(ALL_H[i].toUpperCase(), hi+hdr.length+1);
+    if (p!==-1 && p<end) end=p;
+  }
+  return text.slice(hi+hdr.length, end).replace(/^[\s:\-]+/,'').trim();
+}
+
+function getScore(block) {
+  var m = block.match(/score\s*:\s*(\d{1,2})\s*(?:\/\s*10)?/i);
+  if (m) return Math.min(10,Math.max(1,parseInt(m[1],10)));
+  m = block.match(/^\s*(\d{1,2})\s*\/\s*10/m);
+  if (m) return Math.min(10,Math.max(1,parseInt(m[1],10)));
+  m = block.match(/\b(10|[1-9])\b/);
+  if (m) return Math.min(10,Math.max(1,parseInt(m[1],10)));
+  return null;
+}
+
+function getDiag(block) {
+  return block
+    .replace(/score\s*:\s*\d{1,2}\s*(?:\/\s*10)?/gi,'')
+    .split('\n').map(function(l){return l.trim();})
+    .filter(function(l){return l.length>5;})
+    .slice(0,4).join(' ').trim();
+}
+
+function getTotal(text) {
+  var blk = getBlock(text,'TOTAL SCORE');
+  var m = blk.match(/(\d{1,2})\s*\/\s*50/);
+  if (m) return Math.min(50,Math.max(0,parseInt(m[1],10)));
+  m = blk.match(/\b([0-4]?\d)\b/);
+  if (m) { var v=parseInt(m[1],10); if(v<=50) return v; }
+  return null;
+}
+
+function getTier(n) {
+  if (n>=40) return {lbl:'DADDY APPROVED', col:'#dbe120'};
+  if (n>=30) return {lbl:'NEEDS WORK',      col:'#ffffff'};
+  if (n>=20) return {lbl:'RISKY TERRITORY', col:'#ff6b35'};
+  return            {lbl:'START OVER',      col:'#ff3535'};
+}
+
+// ── RENDER ───────────────────────────────────────────────────────────
+function renderResult() {
+  var text = S.raw;
+  var grid = document.getElementById('score-grid');
+  grid.innerHTML = '';
+
+  for (var i=0;i<DIMS.length;i++) {
+    var dim  = DIMS[i];
+    var blk  = getBlock(text, dim);
+    var sc   = getScore(blk);
+    var diag = getDiag(blk) || 'See full verdict below.';
+    var pct  = sc ? (sc/10*100) : 0;
+    var row  = document.createElement('div');
+    row.className = 'srow';
+    row.style.animation = 'fu .5s ease '+(0.05+i*.09)+'s both';
+    row.innerHTML =
+      '<div class="shdr">'
+      + '<span class="sdim">'+dim+'</span>'
+      + '<span class="snw"><span class="snum">'+(sc!==null?sc:'-')+'</span><span class="sden">/ 10</span></span>'
+      + '</div>'
+      + '<div class="sbt"><div class="sbf" data-p="'+pct+'"></div></div>'
+      + '<p class="sdiag">'+diag+'</p>';
+    grid.appendChild(row);
+  }
+
+  requestAnimationFrame(function(){
+    setTimeout(function(){
+      var bars = document.querySelectorAll('.sbf');
+      for (var b=0;b<bars.length;b++) bars[b].style.width = bars[b].getAttribute('data-p')+'%';
+    },150);
+  });
+
+  var total = getTotal(text);
+  var tier  = total!==null ? getTier(total) : {lbl:'-',col:'#fff'};
+
+  document.getElementById('res-total').textContent = total!==null ? String(total) : '-';
+  var te = document.getElementById('res-tier');
+  te.textContent = tier.lbl; te.style.color = tier.col;
+
+  document.getElementById('res-verdict').textContent  = getBlock(text,'VERDICT')  || text;
+  document.getElementById('res-closing').textContent  = getBlock(text,'CLOSING LINE') || '';
+
+  var dir = getBlock(text,'NAME DIRECTION');
+  var dw  = document.getElementById('res-dir-wrap');
+  if (dir && dir.length>10) {
+    document.getElementById('res-direction').textContent = dir;
+    dw.style.display = 'block';
+  } else {
+    dw.style.display = 'none';
+  }
+
+  document.getElementById('res-name-badge').textContent = S.name;
+  document.getElementById('res-feel-badge').textContent = 'Target Feel: '+S.feel;
+  document.getElementById('res-date').textContent = new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+
+  document.getElementById('sc-name').textContent    = S.name.toUpperCase();
+  document.getElementById('sc-score').textContent   = (total!==null?total:'-')+'/50';
+  var st = document.getElementById('sc-tier');
+  st.textContent = tier.lbl; st.style.color = tier.col;
+  document.getElementById('sc-closing').textContent = getBlock(text,'CLOSING LINE') || '';
+
+  showScreen('r');
+}
+
+// ── EXPORTS ──────────────────────────────────────────────────────────
+function copyVerdict(btn) {
+  var txt = S.raw || 'No verdict available.';
+  var orig = btn.innerHTML;
+  function done(){ btn.innerHTML='Copied!'; btn.style.background='#dbe120'; btn.style.color='#000'; setTimeout(function(){ btn.innerHTML=orig; btn.style.background='#fff'; btn.style.color='#000'; },2000); }
+  if (navigator.clipboard) { navigator.clipboard.writeText(txt).then(done).catch(done); }
+  else { var ta=document.createElement('textarea'); ta.value=txt; ta.style.position='fixed'; ta.style.opacity='0'; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); done(); }
+}
+
+function downloadPNG() {
+  html2canvas(document.getElementById('scard'),{backgroundColor:'#0a0a0a',scale:2,logging:false,width:1080,height:1350,useCORS:true})
+  .then(function(c){ var a=document.createElement('a'); a.download='DaddyNamingLab-'+S.name.replace(/\s+/g,'-')+'.png'; a.href=c.toDataURL('image/png'); a.click(); })
+  .catch(function(){ alert('Image export failed. Try PDF instead.'); });
+}
+
+function generatePDF() {
+  html2canvas(document.getElementById('capture'),{backgroundColor:'#0e0e0e',scale:2,logging:false,useCORS:true})
+  .then(function(c){
+    var J=window.jspdf.jsPDF;
+    var iw=210, ih=(c.height*iw)/c.width;
+    var doc=new J({orientation:'portrait',unit:'mm',format:'a4'});
+    var ph=297, y=0;
+    while(y<ih){ if(y>0) doc.addPage(); doc.addImage(c.toDataURL('image/png'),'PNG',0,-y,iw,ih); y+=ph; }
+    doc.save('DaddyNamingLab-'+S.name.replace(/\s+/g,'-')+'.pdf');
+  })
+  .catch(function(){ alert('PDF export failed. Try copying the verdict instead.'); });
+}
+
+// ── RESET ────────────────────────────────────────────────────────────
+function startOver() {
+  document.getElementById('inp-name').value='';
+  document.getElementById('inp-what').value='';
+  document.getElementById('inp-who').value='';
+  document.getElementById('inp-feel').selectedIndex=0;
+  S.raw=''; S.name=''; S.feel='';
+  document.getElementById('score-grid').innerHTML='';
+  document.getElementById('res-verdict').textContent='';
+  document.getElementById('res-closing').textContent='';
+  document.getElementById('res-direction').textContent='';
+  document.getElementById('res-dir-wrap').style.display='none';
+  document.getElementById('res-total').textContent='-';
+  document.getElementById('res-tier').textContent='';
+  clearErr();
+  showScreen('i');
+}
+
+// Enter key submits
+document.addEventListener('keydown',function(e){
+  if (e.key==='Enter' && document.getElementById('si').style.display!=='none') {
+    var b=document.getElementById('run-btn');
+    if (!b.disabled) runTest();
+  }
+});
+</script>
+</body>
+</html>
