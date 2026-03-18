@@ -370,7 +370,7 @@ function tryModel(mi, prompt) {
       else tryModel(mi+1, prompt);
       return;
     }
-    var txt = r.d.choices?.?.message?.content || '';
+    var txt = r.d.choices?.[0]?.message?.content || '';
     if (!txt) { tryModel(mi+1, prompt); return; }
     S.raw = txt.trim();
     setLoad(false);
@@ -550,3 +550,4 @@ document.addEventListener('keydown',function(e){
 </script>
 </body>
 </html>
+
