@@ -235,15 +235,13 @@ select option{background:var(--g)}
 <script>
 // ── CONFIG ──────────────────────────────────────────────────────────
 // Your Gemini API key. Get a free one at aistudio.google.com
-var GK = 'AIzaSyCsiZ4UTx3sTla2VnPSxXisy0V42G3YFxM';
+var GK = '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';
 
 // Models to try in order — stops at the first one that works
 var GM = [
-  'gemini-2.0-flash',
-  'gemini-2.0-flash-lite',
-  'gemini-1.5-flash-002',
-  'gemini-1.5-flash-001',
-  'gemini-1.5-pro'
+  'llama-3.3-70b-versatile',
+  'llama3-70b-8192',
+  'mixtral-8x7b-32768'
 ];
 
 // ── STATE ────────────────────────────────────────────────────────────
@@ -352,52 +350,35 @@ function runTest() {
 function tryModel(mi, prompt) {
   if (mi >= GM.length) {
     setLoad(false);
-    showErr('All models failed. Make sure your Gemini API key is active at aistudio.google.com and this page is hosted on GitHub Pages (not opened as a local file).');
+    showErr('Models failed. Check Groq key.');
     return;
   }
-  var url = 'https://generativelanguage.googleapis.com/v1beta/models/' + GM[mi] + ':generateContent?key=' + GK;
-  fetch(url, {
+  fetch('https://api.groq.com/openai/v1/chat/completions', {
     method: 'POST',
-    headers: {'Content-Type':'application/json'},
+    headers: {'Content-Type':'application/json', 'Authorization':'Bearer ' + GK},
     body: JSON.stringify({
-      contents:[{role:'user',parts:[{text:prompt}]}],
-      generationConfig:{temperature:0.82,maxOutputTokens:1400}
+      model: GM[mi],
+      messages: [{role:'user', content: prompt}],
+      temperature: 0.82,
+      max_tokens: 1400
     })
   })
-  .then(function(res){ return res.json().then(function(d){ return {s:res.status,d:d}; }); })
-  .then(function(r) {
-    var em = (r.d&&r.d.error&&r.d.error.message) ? r.d.error.message : '';
-    // Model not found — try next
-    if (r.s===404 || em.indexOf('not found')!==-1 || em.indexOf('not supported')!==-1) {
-      tryModel(mi+1, prompt); return;
-    }
-    // Quota
-    if (r.s===429 || em.indexOf('quota')!==-1 || em.indexOf('RESOURCE_EXHAUSTED')!==-1) {
-      setLoad(false);
-      showErr('Quota exceeded. You have hit the daily free limit. Wait 24 hours or create a new API key at aistudio.google.com.');
+  .then(res => res.json().then(d => ({s: res.status, d})))
+  .then(r => {
+    if (r.s !== 200) {
+      if (r.s === 429) showErr('Rate limit. Free: 30/min. Wait.');
+      else tryModel(mi+1, prompt);
       return;
     }
-    // Auth
-    if (r.s===400 || r.s===403) {
-      setLoad(false);
-      showErr('API key error (' + r.s + '): ' + em);
-      return;
-    }
-    if (r.s!==200) {
-      setLoad(false);
-      showErr('API error (' + r.s + '): ' + (em||'Unknown. Try again.'));
-      return;
-    }
-    var txt = '';
-    try { txt = r.d.candidates[0].content.parts[0].text; } catch(e) { txt=''; }
-    if (!txt) { setLoad(false); showErr('Empty response from Gemini. Try again.'); return; }
-    S.raw = txt.replace(/\*\*/g,'').replace(/\*/g,'').replace(/^#{1,6} ?/gm,'').replace(/\n{3,}/g,'\n\n').trim();
+    var txt = r.d.choices?.?.message?.content || '';
+    if (!txt) { tryModel(mi+1, prompt); return; }
+    S.raw = txt.trim();
     setLoad(false);
     renderResult();
   })
-  .catch(function(err) {
+  .catch(err => {
     setLoad(false);
-    showErr('Network error: ' + err.message + '. Make sure this page is hosted on GitHub Pages — the Gemini API does not allow calls from local files.');
+    showErr('Error: ' + err.message);
   });
 }
 
