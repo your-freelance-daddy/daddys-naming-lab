@@ -62,6 +62,7 @@ select option{background:var(--g)}
 .spin{display:inline-block;width:13px;height:13px;border:2px solid rgba(0,0,0,.25);border-top-color:#000;border-radius:50%;animation:sp .7s linear infinite;vertical-align:middle;margin-right:8px}
 .caparea{background:linear-gradient(160deg,#0e0e0e 0%,#141414 100%);border:2px solid var(--y);border-radius:4px;padding:clamp(1.5rem,5vw,3rem)}
 #scard{position:fixed;left:-9999px;top:0;width:1080px;height:1350px;background:var(--d);padding:80px;display:flex;flex-direction:column;justify-content:space-between;font-family:'Space Mono',monospace}
+#pdf-capture{position:fixed;left:-9999px;top:0;background:#0a0a0a;width:794px;padding:40px;color:#fff;font-family:'Space Mono',monospace;font-size:14px;line-height:1.6}
 @keyframes sp{to{transform:rotate(360deg)}}
 @keyframes fu{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
 .fu{animation:fu .55s ease both}
@@ -96,6 +97,50 @@ select option{background:var(--g)}
       <p style="font-size:10px;color:rgba(255,255,255,.4);letter-spacing:.22em;text-transform:uppercase;margin-bottom:4px">SHARE YOUR RESULT & TAG</p>
       <p style="font-size:11px;color:rgba(0,229,160,.9);letter-spacing:.18em;text-transform:uppercase">#DADDYSNAMINGLAB</p>
     </div>
+  </div>
+</div>
+
+<!-- PDF EXPORT CONTAINER (hidden, high contrast) -->
+<div id="pdf-capture" style="display:none">
+  <div style="margin-bottom:32px;padding-bottom:24px;border-bottom:2px solid rgba(0,229,160,.4)">
+    <p style="font-size:11px;letter-spacing:.35em;color:rgba(0,229,160,.8);text-transform:uppercase;margin-bottom:16px;font-weight:700">DADDY'S NAMING LAB</p>
+    <p style="font-family:'Archivo Black',sans-serif;font-style:italic;text-transform:uppercase;font-size:32px;color:#00E5A0;letter-spacing:-.02em;margin-bottom:8px;font-weight:900" id="pdf-name">NAME</p>
+    <p style="font-size:10px;color:rgba(255,255,255,.6);letter-spacing:.15em;text-transform:uppercase">BRAND NAME STRESS-TEST</p>
+  </div>
+
+  <div style="margin-bottom:28px;padding-bottom:24px;border-bottom:2px solid rgba(0,229,160,.3)">
+    <p style="font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:rgba(255,255,255,.7);margin-bottom:10px;font-weight:700">TARGET FEEL</p>
+    <p style="font-size:13px;color:#ffffff;margin-bottom:16px" id="pdf-feel">-</p>
+    <p style="font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:rgba(255,255,255,.7);margin-bottom:8px;font-weight:700">GENERATED</p>
+    <p style="font-size:13px;color:#ffffff" id="pdf-date">-</p>
+  </div>
+
+  <div style="margin-bottom:28px">
+    <p style="font-size:11px;letter-spacing:.25em;text-transform:uppercase;color:rgba(0,229,160,.8);margin-bottom:14px;font-weight:700">THE 5-DIMENSION BREAKDOWN</p>
+    <div id="pdf-grid" style="display:flex;flex-direction:column;gap:12px"></div>
+  </div>
+
+  <div style="margin-bottom:28px;padding:20px;background:rgba(0,229,160,.08);border-left:3px solid #00E5A0;border-radius:2px">
+    <p style="font-size:11px;letter-spacing:.25em;text-transform:uppercase;color:rgba(0,229,160,.9);margin-bottom:10px;font-weight:700">TOTAL SCORE</p>
+    <p style="font-family:'Archivo Black',sans-serif;font-style:italic;font-size:44px;line-height:1;color:#00E5A0;letter-spacing:-.02em;margin-bottom:6px" id="pdf-total">-/50</p>
+    <p style="font-size:13px;color:#ffffff;font-weight:700;text-transform:uppercase;letter-spacing:.1em" id="pdf-tier">-</p>
+  </div>
+
+  <div style="margin-bottom:28px">
+    <p style="font-size:11px;letter-spacing:.25em;text-transform:uppercase;color:rgba(0,229,160,.8);margin-bottom:10px;font-weight:700">DADDY'S VERDICT</p>
+    <p style="font-size:13px;line-height:1.7;color:#ffffff;margin-bottom:12px" id="pdf-verdict">-</p>
+    <p style="font-size:11px;letter-spacing:.25em;text-transform:uppercase;color:rgba(0,229,160,.8);margin-bottom:8px;margin-top:14px;font-weight:700">CLOSING LINE</p>
+    <p style="font-size:13px;line-height:1.7;color:rgba(255,255,255,.95);font-style:italic;border-left:2px solid #00E5A0;padding-left:12px" id="pdf-closing">-</p>
+  </div>
+
+  <div id="pdf-dir-wrap" style="display:none;margin-bottom:28px">
+    <p style="font-size:11px;letter-spacing:.25em;text-transform:uppercase;color:rgba(0,229,160,.7);margin-bottom:10px;font-weight:700">NAME DIRECTION</p>
+    <p style="font-size:13px;line-height:1.7;color:rgba(255,255,255,.8)" id="pdf-direction">-</p>
+  </div>
+
+  <div style="margin-top:32px;padding-top:20px;border-top:1px solid rgba(0,229,160,.25);text-align:center">
+    <p style="font-size:10px;color:rgba(255,255,255,.5);letter-spacing:.15em">YOUR FREELANCE DADDY</p>
+    <p style="font-size:9px;color:rgba(0,229,160,.6);letter-spacing:.12em;margin-top:4px">POWERED BY DADDY'S METHODOLOGY ⚡</p>
   </div>
 </div>
 
@@ -497,6 +542,39 @@ function renderResult() {
   st.textContent = tier.lbl; st.style.color = tier.col;
   document.getElementById('sc-closing').textContent = getBlock(text,'CLOSING LINE') || '';
 
+  // ── POPULATE PDF CONTAINER ──
+  document.getElementById('pdf-name').textContent = S.name.toUpperCase();
+  document.getElementById('pdf-feel').textContent = S.feel;
+  document.getElementById('pdf-date').textContent = new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+  document.getElementById('pdf-total').textContent = (total!==null?total:'-')+'/50';
+  var pt = document.getElementById('pdf-tier');
+  pt.textContent = tier.lbl; pt.style.color = tier.col;
+  document.getElementById('pdf-verdict').textContent = getBlock(text,'VERDICT') || '';
+  document.getElementById('pdf-closing').textContent = getBlock(text,'CLOSING LINE') || '';
+
+  // Populate PDF score grid
+  var pdfGrid = document.getElementById('pdf-grid');
+  pdfGrid.innerHTML = '';
+  for (var i=0;i<DIMS.length;i++) {
+    var dim = DIMS[i];
+    var blk = getBlock(text, dim);
+    var sc = getScore(blk);
+    var diag = getDiag(blk) || '';
+    var row = document.createElement('div');
+    row.style.marginBottom = '10px';
+    row.innerHTML = '<p style="color:#00E5A0;font-weight:700;margin-bottom:4px">'+dim+': '+(sc!==null?sc:'-')+'/10</p>'
+                   + '<p style="color:rgba(255,255,255,.8);font-size:12px;line-height:1.5">'+diag+'</p>';
+    pdfGrid.appendChild(row);
+  }
+
+  // Name direction for PDF
+  if (dir && dir.length>10) {
+    document.getElementById('pdf-direction').textContent = dir;
+    document.getElementById('pdf-dir-wrap').style.display = 'block';
+  } else {
+    document.getElementById('pdf-dir-wrap').style.display = 'none';
+  }
+
   showScreen('r');
 }
 
@@ -550,67 +628,59 @@ function downloadPNG() {
 }
 
 function generatePDF() {
-  var captureEl = document.getElementById('capture');
-  var originalWidth = captureEl.offsetWidth;
-  var originalHeight = captureEl.offsetHeight;
+  var pdfEl = document.getElementById('pdf-capture');
+  pdfEl.style.display = 'block';
 
-  html2canvas(captureEl,{
-    backgroundColor:'#0e0e0e',
+  html2canvas(pdfEl,{
+    backgroundColor:'#0a0a0a',
     scale:2,
     logging:false,
-    useCORS:true
+    useCORS:true,
+    width:794,
+    windowHeight:2000
   })
   .then(function(canvas){
+    pdfEl.style.display = 'none';
+
     var J = window.jspdf.jsPDF;
     var pdf = new J({orientation:'portrait',unit:'mm',format:'a4'});
     var pageWidth = pdf.internal.pageSize.getWidth();
     var pageHeight = pdf.internal.pageSize.getHeight();
 
-    var imgWidth = pageWidth - 20; // 10mm margin each side
-    var imgHeight = canvas.height * imgWidth / canvas.width;
-
+    var imgWidth = pageWidth;
+    var imgHeight = (canvas.height * pageWidth) / canvas.width;
     var imgData = canvas.toDataURL('image/png');
 
-    if (imgHeight <= pageHeight - 20) {
-      // single page with margin
-      pdf.addImage(imgData,'PNG',10,10,imgWidth,imgHeight);
-    } else {
-      // multi-page: slice vertically
-      var position = 0;
-      var remainingHeight = imgHeight;
+    var position = 0;
+
+    while (position < imgHeight) {
       var pageCanvas = document.createElement('canvas');
+      pageCanvas.width = canvas.width;
+      pageCanvas.height = Math.min(canvas.height - (position * canvas.width / pageWidth), pageHeight * canvas.width / pageWidth);
+
       var pageCtx = pageCanvas.getContext('2d');
-      var pageHeightPx = canvas.width * (pageHeight - 20) / imgWidth;
+      pageCtx.drawImage(
+        canvas,
+        0, position * canvas.width / pageWidth,
+        canvas.width, pageCanvas.height,
+        0, 0,
+        canvas.width, pageCanvas.height
+      );
 
-      while (remainingHeight > 0) {
-        pageCanvas.width = canvas.width;
-        pageCanvas.height = pageHeightPx;
+      var pageImgData = pageCanvas.toDataURL('image/png');
+      var pageImgHeight = (pageCanvas.height * pageWidth) / canvas.width;
 
-        pageCtx.fillStyle = '#0e0e0e';
-        pageCtx.fillRect(0,0,pageCanvas.width,pageCanvas.height);
+      pdf.addImage(pageImgData, 'PNG', 0, 0, pageWidth, pageImgHeight);
 
-        pageCtx.drawImage(
-          canvas,
-          0, position,
-          canvas.width, pageHeightPx,
-          0, 0,
-          canvas.width, pageHeightPx
-        );
-
-        var pageImgData = pageCanvas.toDataURL('image/png');
-        pdf.addImage(pageImgData,'PNG',10,10,imgWidth,pageHeight-20);
-
-        remainingHeight -= pageHeight - 20;
-        position += pageHeightPx;
-
-        if (remainingHeight > 0) pdf.addPage();
-      }
+      position += pageHeight;
+      if (position < imgHeight) pdf.addPage();
     }
 
     pdf.save('DaddyNamingLab-'+S.name.replace(/\s+/g,'-')+'.pdf');
   })
-  .catch(function(){
-    alert('PDF export failed. Try copying the verdict instead.');
+  .catch(function(err){
+    document.getElementById('pdf-capture').style.display = 'none';
+    alert('PDF export failed: '+err.message);
   });
 }
 
