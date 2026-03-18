@@ -9,26 +9,26 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 <style>
-:root{--y:#dbe120;--g:#303030;--d:#0a0a0a;--o:#ff6b35;--r:#ff3535}
+:root{--y:#00E5A0;--g:#303030;--d:#0a0a0a;--o:#ff6b35;--r:#ff3535}
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 body{background:var(--d);color:#fff;font-family:'Space Mono',monospace;min-height:100vh;overflow-x:hidden}
 .arch{font-family:'Archivo Black',sans-serif;font-style:italic;text-transform:uppercase;letter-spacing:-.02em}
 #si{display:flex}#sr{display:none}
 .pw{width:100%;min-height:100vh;display:flex;align-items:flex-start;justify-content:center;padding:32px 16px}
 .inn{width:100%;max-width:720px}.innw{width:100%;max-width:860px}
-.card{background:rgba(18,18,18,.98);border:1px solid rgba(219,225,32,.15);border-radius:4px;padding:2.5rem;position:relative;overflow:hidden}
+.card{background:rgba(18,18,18,.98);border:1px solid rgba(0,229,160,.15);border-radius:4px;padding:2.5rem;position:relative;overflow:hidden}
 .card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--y),transparent)}
-.cardd{background:rgba(18,18,18,.98);border:1px dashed rgba(219,225,32,.35);border-radius:4px;padding:2rem}
-input,select{display:block;width:100%;background:var(--g);border:1px solid rgba(219,225,32,.2);color:#fff;font-family:'Space Mono',monospace;font-size:14px;padding:15px 18px;border-radius:2px;outline:none;transition:border-color .2s,box-shadow .2s;-webkit-appearance:none;appearance:none}
+.cardd{background:rgba(18,18,18,.98);border:1px dashed rgba(0,229,160,.35);border-radius:4px;padding:2rem}
+input,select{display:block;width:100%;background:var(--g);border:1px solid rgba(0,229,160,.2);color:#fff;font-family:'Space Mono',monospace;font-size:14px;padding:15px 18px;border-radius:2px;outline:none;transition:border-color .2s,box-shadow .2s;-webkit-appearance:none;appearance:none}
 input::placeholder{color:rgba(255,255,255,.28)}
-input:focus,select:focus{border-color:var(--y);background:rgba(219,225,32,.04);box-shadow:0 0 0 3px rgba(219,225,32,.1)}
-select{cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath fill='%23dbe120' d='M5 7L1 3h8z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center;padding-right:44px}
+input:focus,select:focus{border-color:var(--y);background:rgba(0,229,160,.04);box-shadow:0 0 0 3px rgba(0,229,160,.1)}
+select{cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath fill='%2300E5A0' d='M5 7L1 3h8z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center;padding-right:44px}
 select option{background:var(--g)}
-.btnp{display:block;width:100%;background:var(--y);color:#000;font-family:'Space Mono',monospace;font-weight:700;font-size:15px;text-transform:uppercase;font-style:italic;padding:18px;border:none;border-radius:2px;cursor:pointer;transition:background .2s,transform .15s,box-shadow .2s;box-shadow:0 0 28px rgba(219,225,32,.35)}
+.btnp{display:block;width:100%;background:var(--y);color:#000;font-family:'Space Mono',monospace;font-weight:700;font-size:15px;text-transform:uppercase;font-style:italic;padding:18px;border:none;border-radius:2px;cursor:pointer;transition:background .2s,transform .15s,box-shadow .2s;box-shadow:0 0 28px rgba(0,229,160,.35)}
 .btnp:hover:not(:disabled){background:#fff;transform:translateY(-2px)}
 .btnp:disabled{opacity:.55;cursor:not-allowed;transform:none}
-.btns{background:transparent;color:#fff;font-family:'Space Mono',monospace;font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.1em;padding:15px 20px;border:2px solid rgba(219,225,32,.3);border-radius:2px;cursor:pointer;transition:background .2s,transform .15s}
-.btns:hover{background:rgba(219,225,32,.08);transform:translateY(-2px)}
+.btns{background:transparent;color:#fff;font-family:'Space Mono',monospace;font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.1em;padding:15px 20px;border:2px solid rgba(0,229,160,.3);border-radius:2px;cursor:pointer;transition:background .2s,transform .15s}
+.btns:hover{background:rgba(0,229,160,.08);transform:translateY(-2px)}
 .btnw{background:#fff;color:#000;font-family:'Space Mono',monospace;font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.1em;padding:15px 20px;border:none;border-radius:2px;cursor:pointer;transition:background .2s,transform .15s}
 .btnw:hover{background:var(--y);transform:translateY(-2px)}
 .fl{display:block;font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--y);margin-bottom:10px}
@@ -45,7 +45,7 @@ select option{background:var(--g)}
 .sbt{height:4px;background:rgba(255,255,255,.07);border-radius:2px;overflow:hidden}
 .sbf{height:100%;background:var(--y);border-radius:2px;width:0%;transition:width 1.1s cubic-bezier(.16,1,.3,1)}
 .sdiag{font-size:12px;line-height:1.65;color:rgba(255,255,255,.62);margin-top:7px}
-.totblk{text-align:center;padding:32px 0;border-top:1px solid rgba(219,225,32,.1);border-bottom:1px solid rgba(219,225,32,.1);margin:32px 0}
+.totblk{text-align:center;padding:32px 0;border-top:1px solid rgba(0,229,160,.1);border-bottom:1px solid rgba(0,229,160,.1);margin:32px 0}
 .totdisp{display:flex;align-items:flex-end;justify-content:center;gap:10px}
 .totnum{font-family:'Archivo Black',sans-serif;font-style:italic;font-size:clamp(3.5rem,10vw,5.5rem);line-height:1}
 .totden{font-size:1.5rem;opacity:.3;font-weight:700;padding-bottom:6px}
@@ -53,9 +53,9 @@ select option{background:var(--g)}
 .vtxt{font-size:13px;line-height:1.85;color:rgba(255,255,255,.82);white-space:pre-wrap}
 .cline{font-size:14px;font-style:italic;border-left:2px solid var(--y);padding-left:16px;line-height:1.7;color:rgba(255,255,255,.9);margin-top:20px;padding-top:4px}
 .dquote{font-size:11px;opacity:.5;font-style:italic;border-left:2px solid var(--y);padding-left:12px;margin:14px 0;line-height:1.6}
-.nbadge{display:inline-block;font-family:'Archivo Black',sans-serif;font-style:italic;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--y);background:rgba(219,225,32,.07);border:1px solid rgba(219,225,32,.28);padding:4px 12px;border-radius:2px}
-.ctablk{border:1px solid rgba(219,225,32,.18);background:rgba(219,225,32,.025);border-radius:4px;padding:2.5rem;text-align:center}
-.ctalink{display:inline-block;background:var(--y);color:#000;font-family:'Space Mono',monospace;font-weight:700;font-style:italic;font-size:14px;text-transform:uppercase;text-decoration:none;padding:16px 44px;border-radius:2px;box-shadow:0 0 28px rgba(219,225,32,.35);transition:background .2s,transform .15s}
+.nbadge{display:inline-block;font-family:'Archivo Black',sans-serif;font-style:italic;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--y);background:rgba(0,229,160,.07);border:1px solid rgba(0,229,160,.28);padding:4px 12px;border-radius:2px}
+.ctablk{border:1px solid rgba(0,229,160,.18);background:rgba(0,229,160,.025);border-radius:4px;padding:2.5rem;text-align:center}
+.ctalink{display:inline-block;background:var(--y);color:#000;font-family:'Space Mono',monospace;font-weight:700;font-style:italic;font-size:14px;text-transform:uppercase;text-decoration:none;padding:16px 44px;border-radius:2px;box-shadow:0 0 28px rgba(0,229,160,.35);transition:background .2s,transform .15s}
 .ctalink:hover{background:#fff;transform:translateY(-2px)}
 .wm{font-family:'Archivo Black',sans-serif;font-style:italic;text-transform:uppercase;letter-spacing:-.02em;opacity:.12;font-size:10px}
 .errbox{display:none;border:1px solid rgba(255,53,53,.4);background:rgba(255,53,53,.05);padding:14px 16px;border-radius:2px;color:var(--y);font-size:12px;line-height:1.65;margin-top:16px}
@@ -75,21 +75,27 @@ select option{background:var(--g)}
 <!-- SOCIAL CARD (off-screen, PNG export only) -->
 <div id="scard">
   <div>
-    <p style="font-size:13px;letter-spacing:.35em;color:rgba(219,225,32,.45);text-transform:uppercase;margin-bottom:20px">DADDY'S NAMING LAB</p>
-    <p style="font-family:'Archivo Black',sans-serif;font-style:italic;text-transform:uppercase;font-size:26px;color:rgba(255,255,255,.35);margin-bottom:14px">STRESS-TEST RESULT FOR</p>
-    <p id="sc-name" style="font-family:'Archivo Black',sans-serif;font-style:italic;text-transform:uppercase;font-size:88px;line-height:.88;color:#fff;letter-spacing:-.03em;margin-bottom:56px;word-break:break-word">NAME</p>
+    <p style="font-size:13px;letter-spacing:.35em;color:rgba(0,229,160,.45);text-transform:uppercase;margin-bottom:20px">DADDY'S NAMING LAB</p>
+    <p style="font-family:'Archivo Black',sans-serif;font-style:italic;text-transform:uppercase;font-size:24px;color:rgba(255,255,255,.5);margin-bottom:10px">BRAND NAME STRESS-TEST RESULT FOR</p>
+    <p id="sc-name" style="font-family:'Archivo Black',sans-serif;font-style:italic;text-transform:uppercase;font-size:88px;line-height:.88;color:#fff;letter-spacing:-.03em;margin-bottom:40px;word-break:break-word">NAME</p>
   </div>
-  <div style="border-top:1px solid rgba(219,225,32,.18);padding-top:56px;margin-bottom:56px">
-    <p style="font-size:16px;color:rgba(255,255,255,.35);letter-spacing:.25em;text-transform:uppercase;margin-bottom:18px">TOTAL SCORE</p>
-    <p id="sc-score" style="font-family:'Archivo Black',sans-serif;font-style:italic;font-size:150px;line-height:.82;color:#dbe120;letter-spacing:-.04em">-/50</p>
-    <p id="sc-tier" style="font-family:'Archivo Black',sans-serif;font-style:italic;font-size:48px;text-transform:uppercase;letter-spacing:-.02em;margin-top:14px;color:#fff">-</p>
+  <div style="border-top:1px solid rgba(0,229,160,.28);padding-top:40px;margin-bottom:40px">
+    <p style="font-size:14px;color:rgba(255,255,255,.45);letter-spacing:.25em;text-transform:uppercase;margin-bottom:12px">TOTAL SCORE</p>
+    <p id="sc-score" style="font-family:'Archivo Black',sans-serif;font-style:italic;font-size:150px;line-height:.82;color:#00E5A0;letter-spacing:-.04em">-/50</p>
+    <p id="sc-tier" style="font-family:'Archivo Black',sans-serif;font-style:italic;font-size:40px;text-transform:uppercase;letter-spacing:-.02em;margin-top:10px;color:#fff">-</p>
   </div>
-  <div style="border-left:3px solid #dbe120;padding-left:30px;margin-bottom:56px">
-    <p id="sc-closing" style="font-size:22px;line-height:1.55;color:#fff;font-style:italic">-</p>
+  <div style="border-left:3px solid #00E5A0;padding-left:24px;margin-bottom:40px">
+    <p id="sc-closing" style="font-size:20px;line-height:1.55;color:#fff;font-style:italic">-</p>
   </div>
-  <div style="display:flex;justify-content:space-between;align-items:center">
-    <p style="font-family:'Archivo Black',sans-serif;font-style:italic;text-transform:uppercase;font-size:20px;color:rgba(219,225,32,.18)">YOUR FREELANCE DADDY</p>
-    <p style="font-size:11px;color:rgba(255,255,255,.18);letter-spacing:.2em">BRAND NAME STRESS-TEST</p>
+  <div style="display:flex;justify-content:space-between;align-items:center;gap:16px">
+    <div>
+      <p style="font-family:'Archivo Black',sans-serif;font-style:italic;text-transform:uppercase;font-size:18px;color:rgba(0,229,160,.7)">YOUR FREELANCE DADDY</p>
+      <p style="font-size:11px;color:rgba(255,255,255,.45);letter-spacing:.18em;text-transform:uppercase">@yourfreelancedaddy</p>
+    </div>
+    <div style="text-align:right">
+      <p style="font-size:10px;color:rgba(255,255,255,.4);letter-spacing:.22em;text-transform:uppercase;margin-bottom:4px">SHARE YOUR RESULT & TAG</p>
+      <p style="font-size:11px;color:rgba(0,229,160,.9);letter-spacing:.18em;text-transform:uppercase">#DADDYSNAMINGLAB</p>
+    </div>
   </div>
 </div>
 
@@ -105,9 +111,9 @@ select option{background:var(--g)}
         <h1 class="arch" style="font-size:clamp(2.6rem,9vw,4.8rem);line-height:.87">Daddy's<br><span style="color:var(--y)">Naming Lab</span></h1>
         <p class="dquote">"Is your name working or wasting you?"</p>
         <div style="display:flex;align-items:center;justify-content:center;gap:14px;margin-top:10px">
-          <div style="height:1px;width:44px;background:linear-gradient(to right,transparent,rgba(219,225,32,.25))"></div>
+          <div style="height:1px;width:44px;background:linear-gradient(to right,transparent,rgba(0,229,160,.25))"></div>
           <span style="font-size:8px;text-transform:uppercase;letter-spacing:.32em;opacity:.35">Brand Name Stress-Test</span>
-          <div style="height:1px;width:44px;background:linear-gradient(to left,transparent,rgba(219,225,32,.25))"></div>
+          <div style="height:1px;width:44px;background:linear-gradient(to left,transparent,rgba(0,229,160,.25))"></div>
         </div>
       </header>
       <div style="display:flex;flex-direction:column;gap:22px">
@@ -156,14 +162,14 @@ select option{background:var(--g)}
     </div>
     <div id="capture" class="caparea fu">
       <!-- Result header -->
-      <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-start;gap:16px;padding-bottom:24px;border-bottom:1px solid rgba(219,225,32,.18);margin-bottom:36px">
+      <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-start;gap:16px;padding-bottom:24px;border-bottom:1px solid rgba(0,229,160,.18);margin-bottom:36px">
         <div>
           <h2 class="arch" style="font-size:clamp(2rem,5vw,3rem);line-height:.9;margin-bottom:12px">Daddy's<br><span style="color:var(--y)">Verdict</span></h2>
           <div id="res-name-badge" class="nbadge" style="margin-bottom:8px"></div>
           <p style="font-size:9px;opacity:.35;text-transform:uppercase;letter-spacing:.28em;margin-top:8px">Generated <span id="res-date"></span></p>
         </div>
         <div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px;text-align:right">
-          <span style="font-size:10px;font-weight:700;border:1px solid rgba(219,225,32,.25);padding:5px 12px;opacity:.65;background:rgba(219,225,32,.04)">BRAND NAME STRESS-TEST</span>
+          <span style="font-size:10px;font-weight:700;border:1px solid rgba(0,229,160,.25);padding:5px 12px;opacity:.65;background:rgba(0,229,160,.04)">BRAND NAME STRESS-TEST</span>
           <span id="res-feel-badge" style="font-size:9px;opacity:.28;text-transform:uppercase;letter-spacing:.12em"></span>
         </div>
       </div>
@@ -424,7 +430,7 @@ function getTotal(text) {
 }
 
 function getTier(n) {
-  if (n>=40) return {lbl:'DADDY APPROVED', col:'#dbe120'};
+  if (n>=40) return {lbl:'DADDY APPROVED', col:'#00E5A0'};
   if (n>=30) return {lbl:'NEEDS WORK',      col:'#ffffff'};
   if (n>=20) return {lbl:'RISKY TERRITORY', col:'#ff6b35'};
   return            {lbl:'START OVER',      col:'#ff3535'};
@@ -498,28 +504,114 @@ function renderResult() {
 function copyVerdict(btn) {
   var txt = S.raw || 'No verdict available.';
   var orig = btn.innerHTML;
-  function done(){ btn.innerHTML='Copied!'; btn.style.background='#dbe120'; btn.style.color='#000'; setTimeout(function(){ btn.innerHTML=orig; btn.style.background='#fff'; btn.style.color='#000'; },2000); }
-  if (navigator.clipboard) { navigator.clipboard.writeText(txt).then(done).catch(done); }
-  else { var ta=document.createElement('textarea'); ta.value=txt; ta.style.position='fixed'; ta.style.opacity='0'; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); done(); }
+  function done(){
+    btn.innerHTML='Copied!';
+    btn.style.background='#00E5A0';
+    btn.style.color='#000';
+    setTimeout(function(){
+      btn.innerHTML=orig;
+      btn.style.background='#fff';
+      btn.style.color='#000';
+    },2000);
+  }
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(txt).then(done).catch(done);
+  } else {
+    var ta=document.createElement('textarea');
+    ta.value=txt;
+    ta.style.position='fixed';
+    ta.style.opacity='0';
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    done();
+  }
 }
 
 function downloadPNG() {
-  html2canvas(document.getElementById('scard'),{backgroundColor:'#0a0a0a',scale:2,logging:false,width:1080,height:1350,useCORS:true})
-  .then(function(c){ var a=document.createElement('a'); a.download='DaddyNamingLab-'+S.name.replace(/\s+/g,'-')+'.png'; a.href=c.toDataURL('image/png'); a.click(); })
-  .catch(function(){ alert('Image export failed. Try PDF instead.'); });
+  html2canvas(document.getElementById('scard'),{
+    backgroundColor:'#0a0a0a',
+    scale:2,
+    logging:false,
+    width:1080,
+    height:1350,
+    useCORS:true
+  })
+  .then(function(c){
+    var a=document.createElement('a');
+    a.download='DaddyNamingLab-'+S.name.replace(/\s+/g,'-')+'.png';
+    a.href=c.toDataURL('image/png');
+    a.click();
+  })
+  .catch(function(){
+    alert('Image export failed. Try PDF instead.');
+  });
 }
 
 function generatePDF() {
-  html2canvas(document.getElementById('capture'),{backgroundColor:'#0e0e0e',scale:2,logging:false,useCORS:true})
-  .then(function(c){
-    var J=window.jspdf.jsPDF;
-    var iw=210, ih=(c.height*iw)/c.width;
-    var doc=new J({orientation:'portrait',unit:'mm',format:'a4'});
-    var ph=297, y=0;
-    while(y<ih){ if(y>0) doc.addPage(); doc.addImage(c.toDataURL('image/png'),'PNG',0,-y,iw,ih); y+=ph; }
-    doc.save('DaddyNamingLab-'+S.name.replace(/\s+/g,'-')+'.pdf');
+  var captureEl = document.getElementById('capture');
+  var originalWidth = captureEl.offsetWidth;
+  var originalHeight = captureEl.offsetHeight;
+
+  html2canvas(captureEl,{
+    backgroundColor:'#0e0e0e',
+    scale:2,
+    logging:false,
+    useCORS:true
   })
-  .catch(function(){ alert('PDF export failed. Try copying the verdict instead.'); });
+  .then(function(canvas){
+    var J = window.jspdf.jsPDF;
+    var pdf = new J({orientation:'portrait',unit:'mm',format:'a4'});
+    var pageWidth = pdf.internal.pageSize.getWidth();
+    var pageHeight = pdf.internal.pageSize.getHeight();
+
+    var imgWidth = pageWidth - 20; // 10mm margin each side
+    var imgHeight = canvas.height * imgWidth / canvas.width;
+
+    var imgData = canvas.toDataURL('image/png');
+
+    if (imgHeight <= pageHeight - 20) {
+      // single page with margin
+      pdf.addImage(imgData,'PNG',10,10,imgWidth,imgHeight);
+    } else {
+      // multi-page: slice vertically
+      var position = 0;
+      var remainingHeight = imgHeight;
+      var pageCanvas = document.createElement('canvas');
+      var pageCtx = pageCanvas.getContext('2d');
+      var pageHeightPx = canvas.width * (pageHeight - 20) / imgWidth;
+
+      while (remainingHeight > 0) {
+        pageCanvas.width = canvas.width;
+        pageCanvas.height = pageHeightPx;
+
+        pageCtx.fillStyle = '#0e0e0e';
+        pageCtx.fillRect(0,0,pageCanvas.width,pageCanvas.height);
+
+        pageCtx.drawImage(
+          canvas,
+          0, position,
+          canvas.width, pageHeightPx,
+          0, 0,
+          canvas.width, pageHeightPx
+        );
+
+        var pageImgData = pageCanvas.toDataURL('image/png');
+        pdf.addImage(pageImgData,'PNG',10,10,imgWidth,pageHeight-20);
+
+        remainingHeight -= pageHeight - 20;
+        position += pageHeightPx;
+
+        if (remainingHeight > 0) pdf.addPage();
+      }
+    }
+
+    pdf.save('DaddyNamingLab-'+S.name.replace(/\s+/g,'-')+'.pdf');
+  })
+  .catch(function(){
+    alert('PDF export failed. Try copying the verdict instead.');
+  });
 }
 
 // ── RESET ────────────────────────────────────────────────────────────
@@ -550,4 +642,3 @@ document.addEventListener('keydown',function(e){
 </script>
 </body>
 </html>
-
