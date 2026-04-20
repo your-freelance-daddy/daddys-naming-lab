@@ -1,80 +1,90 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>DADDY'S NAMING LAB | Brand Name Stress-Test</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 <style>
-:root{--y:#00E5A0;--g:#303030;--d:#0a0a0a;--o:#ff6b35;--r:#ff3535}
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-body{background:var(--d);color:#fff;font-family:'Space Mono',monospace;min-height:100vh;overflow-x:hidden}
+:root{
+  --accent:#00E5A0;
+  --accent-2:#00c88b;
+  --panel:#121212;
+  --panel-2:#171717;
+  --field:#303030;
+  --bg:#0a0a0a;
+  --bg-2:#050505;
+  --line:rgba(0,229,160,.16);
+  --line-2:rgba(255,255,255,.07);
+  --text:#ffffff;
+  --muted:rgba(255,255,255,.56);
+  --faint:rgba(255,255,255,.28);
+  --warn:#ff6b35;
+  --danger:#ff3535;
+  --radius:4px;
+  --shadow-glow:0 0 28px rgba(0,229,160,.26);
+  --shadow-card:0 20px 70px rgba(0,0,0,.35);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility;scroll-behavior:smooth}
+body{min-height:100vh;background:radial-gradient(circle at top, rgba(0,229,160,.05), transparent 26%),linear-gradient(180deg,var(--bg-2),var(--bg));color:var(--text);font-family:'Space Mono',monospace;overflow-x:hidden}
+a,button,input,select,textarea{transition:all .18s cubic-bezier(.16,1,.3,1)}
+button{cursor:pointer}
 .arch{font-family:'Archivo Black',sans-serif;font-style:italic;text-transform:uppercase;letter-spacing:-.02em}
 #si{display:flex}#sr{display:none}
 .pw{width:100%;min-height:100vh;display:flex;align-items:flex-start;justify-content:center;padding:32px 16px}
-.inn{width:100%;max-width:720px}.innw{width:100%;max-width:860px}
-.card{background:rgba(18,18,18,.98);border:1px solid rgba(0,229,160,.15);border-radius:4px;padding:2.5rem;position:relative;overflow:hidden}
-.card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--y),transparent)}
-.cardd{background:rgba(18,18,18,.98);border:1px dashed rgba(0,229,160,.35);border-radius:4px;padding:2rem}
-input,select{display:block;width:100%;background:var(--g);border:1px solid rgba(0,229,160,.2);color:#fff;font-family:'Space Mono',monospace;font-size:14px;padding:15px 18px;border-radius:2px;outline:none;transition:border-color .2s,box-shadow .2s;-webkit-appearance:none;appearance:none}
-input::placeholder{color:rgba(255,255,255,.28)}
-input:focus,select:focus{border-color:var(--y);background:rgba(0,229,160,.04);box-shadow:0 0 0 3px rgba(0,229,160,.1)}
+.inn{width:100%;max-width:720px}.innw{width:100%;max-width:920px}
+.card,.cardd,.caparea,.ctablk{backdrop-filter:blur(10px)}
+.card{background:linear-gradient(180deg,rgba(18,18,18,.98),rgba(12,12,12,.98));border:1px solid var(--line);border-radius:var(--radius);padding:2.5rem;position:relative;overflow:hidden;box-shadow:var(--shadow-card)}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--accent),transparent)}
+.cardd{background:rgba(18,18,18,.92);border:1px dashed rgba(0,229,160,.3);border-radius:var(--radius);padding:2rem}
+.caparea{background:linear-gradient(160deg,#0e0e0e 0%,#141414 100%);border:1px solid rgba(0,229,160,.28);border-radius:var(--radius);padding:clamp(1.5rem,5vw,3rem);box-shadow:var(--shadow-card)}
+.ctablk{border:1px solid rgba(0,229,160,.18);background:rgba(0,229,160,.025);border-radius:var(--radius);padding:2.5rem;text-align:center}
+input,select,textarea{display:block;width:100%;background:var(--field);border:1px solid rgba(0,229,160,.2);color:#fff;font-family:'Space Mono',monospace;font-size:14px;padding:15px 18px;border-radius:2px;outline:none;-webkit-appearance:none;appearance:none}
+input::placeholder,textarea::placeholder{color:rgba(255,255,255,.28)}
+input:focus,select:focus,textarea:focus{border-color:var(--accent);background:rgba(0,229,160,.04);box-shadow:0 0 0 3px rgba(0,229,160,.1)}
 select{cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath fill='%2300E5A0' d='M5 7L1 3h8z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center;padding-right:44px}
-select option{background:var(--g)}
-.btnp{display:block;width:100%;background:var(--y);color:#000;font-family:'Space Mono',monospace;font-weight:700;font-size:15px;text-transform:uppercase;font-style:italic;padding:18px;border:none;border-radius:2px;cursor:pointer;transition:background .2s,transform .15s,box-shadow .2s;box-shadow:0 0 28px rgba(0,229,160,.35)}
-.btnp:hover:not(:disabled){background:#fff;transform:translateY(-2px)}
-.btnp:disabled{opacity:.55;cursor:not-allowed;transform:none}
-.btns{background:transparent;color:#fff;font-family:'Space Mono',monospace;font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.1em;padding:15px 20px;border:2px solid rgba(0,229,160,.3);border-radius:2px;cursor:pointer;transition:background .2s,transform .15s}
+select option{background:var(--field)}
+.btnp,.btns,.btnw,.ctalink{min-height:52px}
+.btnp{display:block;width:100%;background:var(--accent);color:#000;font-family:'Space Mono',monospace;font-weight:700;font-size:15px;text-transform:uppercase;font-style:italic;padding:18px;border:none;border-radius:2px;box-shadow:var(--shadow-glow)}
+.btnp:hover:not(:disabled),.ctalink:hover{background:#fff;transform:translateY(-2px)}
+.btnp:disabled{opacity:.55;cursor:not-allowed;transform:none;box-shadow:none}
+.btns{background:transparent;color:#fff;font-family:'Space Mono',monospace;font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.1em;padding:15px 20px;border:2px solid rgba(0,229,160,.3);border-radius:2px}
 .btns:hover{background:rgba(0,229,160,.08);transform:translateY(-2px)}
-.btnw{background:#fff;color:#000;font-family:'Space Mono',monospace;font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.1em;padding:15px 20px;border:none;border-radius:2px;cursor:pointer;transition:background .2s,transform .15s}
-.btnw:hover{background:var(--y);transform:translateY(-2px)}
-.fl{display:block;font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--y);margin-bottom:10px}
-.hl{font-size:9px;opacity:.3;margin-top:7px;margin-left:2px}
-.ab{display:flex;align-items:center;gap:12px;margin-bottom:20px}
-.ab .bar{width:4px;height:24px;background:var(--y);flex-shrink:0}
-.ab .barlbl{font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--y);font-family:'Space Mono',monospace}
-.srow{margin-bottom:24px}
-.shdr{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:6px}
-.sdim{font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--y)}
-.snw{display:flex;align-items:baseline;gap:4px}
-.snum{font-family:'Archivo Black',sans-serif;font-style:italic;font-size:2.2rem;line-height:1;color:#fff}
-.sden{font-size:13px;opacity:.3}
-.sbt{height:4px;background:rgba(255,255,255,.07);border-radius:2px;overflow:hidden}
-.sbf{height:100%;background:var(--y);border-radius:2px;width:0%;transition:width 1.1s cubic-bezier(.16,1,.3,1)}
-.sdiag{font-size:12px;line-height:1.65;color:rgba(255,255,255,.62);margin-top:7px}
-.totblk{text-align:center;padding:32px 0;border-top:1px solid rgba(0,229,160,.1);border-bottom:1px solid rgba(0,229,160,.1);margin:32px 0}
-.totdisp{display:flex;align-items:flex-end;justify-content:center;gap:10px}
-.totnum{font-family:'Archivo Black',sans-serif;font-style:italic;font-size:clamp(3.5rem,10vw,5.5rem);line-height:1}
-.totden{font-size:1.5rem;opacity:.3;font-weight:700;padding-bottom:6px}
-.tierlbl{font-family:'Archivo Black',sans-serif;font-style:italic;font-size:clamp(1.2rem,3.5vw,1.8rem);text-transform:uppercase;letter-spacing:-.02em;margin-top:10px}
-.vtxt{font-size:13px;line-height:1.85;color:rgba(255,255,255,.82);white-space:pre-wrap}
-.cline{font-size:14px;font-style:italic;border-left:2px solid var(--y);padding-left:16px;line-height:1.7;color:rgba(255,255,255,.9);margin-top:20px;padding-top:4px}
-.dquote{font-size:11px;opacity:.5;font-style:italic;border-left:2px solid var(--y);padding-left:12px;margin:14px 0;line-height:1.6}
-.nbadge{display:inline-block;font-family:'Archivo Black',sans-serif;font-style:italic;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--y);background:rgba(0,229,160,.07);border:1px solid rgba(0,229,160,.28);padding:4px 12px;border-radius:2px}
-.ctablk{border:1px solid rgba(0,229,160,.18);background:rgba(0,229,160,.025);border-radius:4px;padding:2.5rem;text-align:center}
-.ctalink{display:inline-block;background:var(--y);color:#000;font-family:'Space Mono',monospace;font-weight:700;font-style:italic;font-size:14px;text-transform:uppercase;text-decoration:none;padding:16px 44px;border-radius:2px;box-shadow:0 0 28px rgba(0,229,160,.35);transition:background .2s,transform .15s}
-.ctalink:hover{background:#fff;transform:translateY(-2px)}
-.wm{font-family:'Archivo Black',sans-serif;font-style:italic;text-transform:uppercase;letter-spacing:-.02em;opacity:.12;font-size:10px}
-.errbox{display:none;border:1px solid rgba(255,53,53,.4);background:rgba(255,53,53,.05);padding:14px 16px;border-radius:2px;color:var(--y);font-size:12px;line-height:1.65;margin-top:16px}
+.btnw{background:#fff;color:#000;font-family:'Space Mono',monospace;font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.1em;padding:15px 20px;border:none;border-radius:2px}
+.btnw:hover{background:var(--accent);transform:translateY(-2px)}
+.ctalink{display:inline-flex;align-items:center;justify-content:center;background:var(--accent);color:#000;font-family:'Space Mono',monospace;font-weight:700;font-style:italic;font-size:14px;text-transform:uppercase;text-decoration:none;padding:16px 44px;border-radius:2px;box-shadow:var(--shadow-glow)}
+.fl{display:block;font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
+.hl{font-size:10px;opacity:.34;margin-top:7px;margin-left:2px;line-height:1.6}
+.ab{display:flex;align-items:center;gap:12px;margin-bottom:20px}.ab .bar{width:4px;height:24px;background:var(--accent);flex-shrink:0}.ab .barlbl{font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--accent)}
+.srow{margin-bottom:24px}.shdr{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:6px}.sdim{font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--accent)}.snw{display:flex;align-items:baseline;gap:4px}.snum{font-family:'Archivo Black',sans-serif;font-style:italic;font-size:2.2rem;line-height:1;color:#fff}.sden{font-size:13px;opacity:.3}.sbt{height:4px;background:rgba(255,255,255,.07);border-radius:2px;overflow:hidden}.sbf{height:100%;background:var(--accent);border-radius:2px;width:0%;transition:width 1.1s cubic-bezier(.16,1,.3,1)}.sdiag{font-size:12px;line-height:1.65;color:rgba(255,255,255,.68);margin-top:7px}
+.totblk{text-align:center;padding:32px 0;border-top:1px solid rgba(0,229,160,.1);border-bottom:1px solid rgba(0,229,160,.1);margin:32px 0}.totdisp{display:flex;align-items:flex-end;justify-content:center;gap:10px}.totnum{font-family:'Archivo Black',sans-serif;font-style:italic;font-size:clamp(3.5rem,10vw,5.5rem);line-height:1}.totden{font-size:1.5rem;opacity:.3;font-weight:700;padding-bottom:6px}.tierlbl{font-family:'Archivo Black',sans-serif;font-style:italic;font-size:clamp(1.2rem,3.5vw,1.8rem);text-transform:uppercase;letter-spacing:-.02em;margin-top:10px}
+.vtxt{font-size:13px;line-height:1.85;color:rgba(255,255,255,.84);white-space:pre-wrap}.cline{font-size:14px;font-style:italic;border-left:2px solid var(--accent);padding-left:16px;line-height:1.7;color:rgba(255,255,255,.9);margin-top:20px;padding-top:4px}.dquote{font-size:11px;opacity:.5;font-style:italic;border-left:2px solid var(--accent);padding-left:12px;margin:14px 0;line-height:1.6}.nbadge{display:inline-block;font-family:'Archivo Black',sans-serif;font-style:italic;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);background:rgba(0,229,160,.07);border:1px solid rgba(0,229,160,.28);padding:4px 12px;border-radius:2px}.wm{font-family:'Archivo Black',sans-serif;font-style:italic;text-transform:uppercase;letter-spacing:-.02em;opacity:.12;font-size:10px}
+.errbox{display:none;border:1px solid rgba(255,53,53,.4);background:rgba(255,53,53,.06);padding:14px 16px;border-radius:2px;color:#ffd7d7;font-size:12px;line-height:1.65;margin-top:16px}
+.okbox{display:none;border:1px solid rgba(0,229,160,.34);background:rgba(0,229,160,.06);padding:14px 16px;border-radius:2px;color:#d7fff0;font-size:12px;line-height:1.65;margin-top:16px}
 .spin{display:inline-block;width:13px;height:13px;border:2px solid rgba(0,0,0,.25);border-top-color:#000;border-radius:50%;animation:sp .7s linear infinite;vertical-align:middle;margin-right:8px}
-.caparea{background:linear-gradient(160deg,#0e0e0e 0%,#141414 100%);border:2px solid var(--y);border-radius:4px;padding:clamp(1.5rem,5vw,3rem)}
-#scard{position:fixed;left:-9999px;top:0;width:1080px;height:1350px;background:var(--d);padding:80px;display:flex;flex-direction:column;justify-content:space-between;font-family:'Space Mono',monospace}
+#scard{position:fixed;left:-9999px;top:0;width:1080px;height:1350px;background:var(--bg);padding:80px;display:flex;flex-direction:column;justify-content:space-between;font-family:'Space Mono',monospace}
 #pdf-capture{position:fixed;left:-9999px;top:0;background:#0a0a0a;width:794px;padding:40px;color:#fff;font-family:'Space Mono',monospace;font-size:14px;line-height:1.6}
+.skip{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden}.skip:focus{left:16px;top:16px;width:auto;height:auto;z-index:1000;background:#fff;color:#000;padding:10px 14px}
 @keyframes sp{to{transform:rotate(360deg)}}
 @keyframes fu{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
 .fu{animation:fu .55s ease both}
 .g3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.meta{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}.meta-chip{font-size:9px;text-transform:uppercase;letter-spacing:.18em;opacity:.42;border:1px solid rgba(255,255,255,.08);padding:6px 10px}
+.small-note{font-size:10px;line-height:1.7;color:var(--muted);margin-top:14px}
 @media(max-width:580px){.g3{grid-template-columns:1fr}}
-@media(max-width:640px){.card{padding:1.5rem}.cardd{padding:1.25rem}.snum{font-size:1.8rem}}
+@media(max-width:640px){.card{padding:1.5rem}.cardd{padding:1.25rem}.snum{font-size:1.8rem}.pw{padding:20px 12px}.ctablk{padding:1.5rem}}
 </style>
 </head>
 <body>
+<a href="#main" class="skip">Skip to content</a>
 
-<!-- SOCIAL CARD (off-screen, PNG export only) -->
-<div id="scard">
+<div id="scard" aria-hidden="true">
   <div>
     <p style="font-size:13px;letter-spacing:.35em;color:rgba(0,229,160,.45);text-transform:uppercase;margin-bottom:20px">DADDY'S NAMING LAB</p>
     <p style="font-family:'Archivo Black',sans-serif;font-style:italic;text-transform:uppercase;font-size:24px;color:rgba(255,255,255,.5);margin-bottom:10px">BRAND NAME STRESS-TEST RESULT FOR</p>
@@ -100,60 +110,33 @@ select option{background:var(--g)}
   </div>
 </div>
 
-<!-- PDF EXPORT CONTAINER (hidden, high contrast) -->
-<div id="pdf-capture" style="display:none">
+<div id="pdf-capture" style="display:none" aria-hidden="true">
   <div style="margin-bottom:32px;padding-bottom:24px;border-bottom:2px solid rgba(0,229,160,.4)">
     <p style="font-size:11px;letter-spacing:.35em;color:rgba(0,229,160,.8);text-transform:uppercase;margin-bottom:16px;font-weight:700">DADDY'S NAMING LAB</p>
     <p style="font-family:'Archivo Black',sans-serif;font-style:italic;text-transform:uppercase;font-size:32px;color:#00E5A0;letter-spacing:-.02em;margin-bottom:8px;font-weight:900" id="pdf-name">NAME</p>
     <p style="font-size:10px;color:rgba(255,255,255,.6);letter-spacing:.15em;text-transform:uppercase">BRAND NAME STRESS-TEST</p>
   </div>
-
   <div style="margin-bottom:28px;padding-bottom:24px;border-bottom:2px solid rgba(0,229,160,.3)">
     <p style="font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:rgba(255,255,255,.7);margin-bottom:10px;font-weight:700">TARGET FEEL</p>
     <p style="font-size:13px;color:#ffffff;margin-bottom:16px" id="pdf-feel">-</p>
     <p style="font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:rgba(255,255,255,.7);margin-bottom:8px;font-weight:700">GENERATED</p>
     <p style="font-size:13px;color:#ffffff" id="pdf-date">-</p>
   </div>
-
-  <div style="margin-bottom:28px">
-    <p style="font-size:11px;letter-spacing:.25em;text-transform:uppercase;color:rgba(0,229,160,.8);margin-bottom:14px;font-weight:700">THE 5-DIMENSION BREAKDOWN</p>
-    <div id="pdf-grid" style="display:flex;flex-direction:column;gap:12px"></div>
-  </div>
-
-  <div style="margin-bottom:28px;padding:20px;background:rgba(0,229,160,.08);border-left:3px solid #00E5A0;border-radius:2px">
-    <p style="font-size:11px;letter-spacing:.25em;text-transform:uppercase;color:rgba(0,229,160,.9);margin-bottom:10px;font-weight:700">TOTAL SCORE</p>
-    <p style="font-family:'Archivo Black',sans-serif;font-style:italic;font-size:44px;line-height:1;color:#00E5A0;letter-spacing:-.02em;margin-bottom:6px" id="pdf-total">-/50</p>
-    <p style="font-size:13px;color:#ffffff;font-weight:700;text-transform:uppercase;letter-spacing:.1em" id="pdf-tier">-</p>
-  </div>
-
-  <div style="margin-bottom:28px">
-    <p style="font-size:11px;letter-spacing:.25em;text-transform:uppercase;color:rgba(0,229,160,.8);margin-bottom:10px;font-weight:700">DADDY'S VERDICT</p>
-    <p style="font-size:13px;line-height:1.7;color:#ffffff;margin-bottom:12px" id="pdf-verdict">-</p>
-    <p style="font-size:11px;letter-spacing:.25em;text-transform:uppercase;color:rgba(0,229,160,.8);margin-bottom:8px;margin-top:14px;font-weight:700">CLOSING LINE</p>
-    <p style="font-size:13px;line-height:1.7;color:rgba(255,255,255,.95);font-style:italic;border-left:2px solid #00E5A0;padding-left:12px" id="pdf-closing">-</p>
-  </div>
-
-  <div id="pdf-dir-wrap" style="display:none;margin-bottom:28px">
-    <p style="font-size:11px;letter-spacing:.25em;text-transform:uppercase;color:rgba(0,229,160,.7);margin-bottom:10px;font-weight:700">NAME DIRECTION</p>
-    <p style="font-size:13px;line-height:1.7;color:rgba(255,255,255,.8)" id="pdf-direction">-</p>
-  </div>
-
-  <div style="margin-top:32px;padding-top:20px;border-top:1px solid rgba(0,229,160,.25);text-align:center">
-    <p style="font-size:10px;color:rgba(255,255,255,.5);letter-spacing:.15em">YOUR FREELANCE DADDY</p>
-    <p style="font-size:9px;color:rgba(0,229,160,.6);letter-spacing:.12em;margin-top:4px">POWERED BY DADDY'S METHODOLOGY ⚡</p>
-  </div>
+  <div style="margin-bottom:28px"><p style="font-size:11px;letter-spacing:.25em;text-transform:uppercase;color:rgba(0,229,160,.8);margin-bottom:14px;font-weight:700">THE 5-DIMENSION BREAKDOWN</p><div id="pdf-grid" style="display:flex;flex-direction:column;gap:12px"></div></div>
+  <div style="margin-bottom:28px;padding:20px;background:rgba(0,229,160,.08);border-left:3px solid #00E5A0;border-radius:2px"><p style="font-size:11px;letter-spacing:.25em;text-transform:uppercase;color:rgba(0,229,160,.9);margin-bottom:10px;font-weight:700">TOTAL SCORE</p><p style="font-family:'Archivo Black',sans-serif;font-style:italic;font-size:44px;line-height:1;color:#00E5A0;letter-spacing:-.02em;margin-bottom:6px" id="pdf-total">-/50</p><p style="font-size:13px;color:#ffffff;font-weight:700;text-transform:uppercase;letter-spacing:.1em" id="pdf-tier">-</p></div>
+  <div style="margin-bottom:28px"><p style="font-size:11px;letter-spacing:.25em;text-transform:uppercase;color:rgba(0,229,160,.8);margin-bottom:10px;font-weight:700">DADDY'S VERDICT</p><p style="font-size:13px;line-height:1.7;color:#ffffff;margin-bottom:12px" id="pdf-verdict">-</p><p style="font-size:11px;letter-spacing:.25em;text-transform:uppercase;color:rgba(0,229,160,.8);margin-bottom:8px;margin-top:14px;font-weight:700">CLOSING LINE</p><p style="font-size:13px;line-height:1.7;color:rgba(255,255,255,.95);font-style:italic;border-left:2px solid #00E5A0;padding-left:12px" id="pdf-closing">-</p></div>
+  <div id="pdf-dir-wrap" style="display:none;margin-bottom:28px"><p style="font-size:11px;letter-spacing:.25em;text-transform:uppercase;color:rgba(0,229,160,.7);margin-bottom:10px;font-weight:700">NAME DIRECTION</p><p style="font-size:13px;line-height:1.7;color:rgba(255,255,255,.8)" id="pdf-direction">-</p></div>
+  <div style="margin-top:32px;padding-top:20px;border-top:1px solid rgba(0,229,160,.25);text-align:center"><p style="font-size:10px;color:rgba(255,255,255,.5);letter-spacing:.15em">YOUR FREELANCE DADDY</p><p style="font-size:9px;color:rgba(0,229,160,.6);letter-spacing:.12em;margin-top:4px">POWERED BY DADDY'S METHODOLOGY</p></div>
 </div>
 
-<!-- SCREEN 1: INPUT -->
+<main id="main">
 <div id="si" class="pw">
   <div class="inn fu">
-    <div style="margin-bottom:24px">
-      <a href="#" style="font-size:10px;text-transform:uppercase;letter-spacing:.22em;opacity:.28;text-decoration:none;color:#fff">← Daddy's Simulator</a>
-    </div>
+    <div style="margin-bottom:24px"><a href="#" style="font-size:10px;text-transform:uppercase;letter-spacing:.22em;opacity:.28;text-decoration:none;color:#fff">← Daddy's Simulator</a></div>
     <div class="card">
       <header style="text-align:center;padding-bottom:28px;border-bottom:1px solid rgba(255,255,255,.05);margin-bottom:32px">
         <p style="font-size:9px;text-transform:uppercase;letter-spacing:.42em;opacity:.28;margin-bottom:14px">Your Freelance Daddy Presents</p>
-        <h1 class="arch" style="font-size:clamp(2.6rem,9vw,4.8rem);line-height:.87">Daddy's<br><span style="color:var(--y)">Naming Lab</span></h1>
+        <h1 class="arch" style="font-size:clamp(2.6rem,9vw,4.8rem);line-height:.87">Daddy's<br><span style="color:var(--accent)">Naming Lab</span></h1>
         <p class="dquote">"Is your name working or wasting you?"</p>
         <div style="display:flex;align-items:center;justify-content:center;gap:14px;margin-top:10px">
           <div style="height:1px;width:44px;background:linear-gradient(to right,transparent,rgba(0,229,160,.25))"></div>
@@ -161,24 +144,25 @@ select option{background:var(--g)}
           <div style="height:1px;width:44px;background:linear-gradient(to left,transparent,rgba(0,229,160,.25))"></div>
         </div>
       </header>
+
       <div style="display:flex;flex-direction:column;gap:22px">
         <div>
-          <label class="fl">01. What's the name?</label>
-          <input id="inp-name" type="text" placeholder="Your brand name, business name, or product name...">
+          <label class="fl" for="inp-name">01. What's the name?</label>
+          <input id="inp-name" type="text" maxlength="80" placeholder="Your brand name, business name, or product name..." autocomplete="off">
           <p class="hl">The name you're using now or thinking about using</p>
         </div>
         <div>
-          <label class="fl">02. What do you do?</label>
-          <input id="inp-what" type="text" placeholder="Ex: brand identity design, coaching, SaaS tool, e-commerce store...">
+          <label class="fl" for="inp-what">02. What do you do?</label>
+          <input id="inp-what" type="text" maxlength="140" placeholder="Ex: brand identity design, coaching, SaaS tool, e-commerce store..." autocomplete="off">
           <p class="hl">Your industry, service, or product category</p>
         </div>
         <div>
-          <label class="fl">03. Who is it for?</label>
-          <input id="inp-who" type="text" placeholder="Ex: early-stage founders, luxury fashion brands, overwhelmed freelancers...">
-          <p class="hl">Be specific — not everyone</p>
+          <label class="fl" for="inp-who">03. Who is it for?</label>
+          <input id="inp-who" type="text" maxlength="140" placeholder="Ex: early-stage founders, luxury fashion brands, overwhelmed freelancers..." autocomplete="off">
+          <p class="hl">Be specific. Not everyone. Daddy needs a target.</p>
         </div>
         <div>
-          <label class="fl">04. What should your name feel like?</label>
+          <label class="fl" for="inp-feel">04. What should your name feel like?</label>
           <select id="inp-feel">
             <option value="PREMIUM">PREMIUM — Sophisticated, elevated, exclusive</option>
             <option value="BOLD">BOLD — Energetic, disruptive, loud</option>
@@ -190,26 +174,31 @@ select option{background:var(--g)}
           <p class="hl">The emotional register your brand should occupy</p>
         </div>
       </div>
-      <div id="errbox" class="errbox"></div>
-      <div style="margin-top:32px">
-        <button id="run-btn" class="btnp" onclick="runTest()">Run The Test</button>
+
+      <div class="meta">
+        <span class="meta-chip">Dark. Sharp. Controlled.</span>
+        <span class="meta-chip">No fluff</span>
+        <span class="meta-chip">Daddy-approved output</span>
       </div>
-      <p style="text-align:center;font-size:9px;opacity:.18;text-transform:uppercase;letter-spacing:.22em;margin-top:16px">Powered by Daddy's Methodology x Gemini AI</p>
+
+      <div id="okbox" class="okbox" role="status" aria-live="polite"></div>
+      <div id="errbox" class="errbox" role="alert" aria-live="assertive"></div>
+
+      <div style="margin-top:32px">
+        <button id="run-btn" class="btnp" type="button" onclick="runTest()">Run The Test</button>
+      </div>
+      <p style="text-align:center;font-size:9px;opacity:.18;text-transform:uppercase;letter-spacing:.22em;margin-top:16px">Powered by Daddy's Methodology x Groq</p>
     </div>
   </div>
 </div>
 
-<!-- SCREEN 2: RESULTS -->
 <div id="sr" class="pw">
   <div class="innw">
-    <div style="margin-bottom:24px">
-      <a href="#" style="font-size:10px;text-transform:uppercase;letter-spacing:.22em;opacity:.28;text-decoration:none;color:#fff">← Daddy's Simulator</a>
-    </div>
+    <div style="margin-bottom:24px"><a href="#" style="font-size:10px;text-transform:uppercase;letter-spacing:.22em;opacity:.28;text-decoration:none;color:#fff">← Daddy's Simulator</a></div>
     <div id="capture" class="caparea fu">
-      <!-- Result header -->
       <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-start;gap:16px;padding-bottom:24px;border-bottom:1px solid rgba(0,229,160,.18);margin-bottom:36px">
         <div>
-          <h2 class="arch" style="font-size:clamp(2rem,5vw,3rem);line-height:.9;margin-bottom:12px">Daddy's<br><span style="color:var(--y)">Verdict</span></h2>
+          <h2 class="arch" style="font-size:clamp(2rem,5vw,3rem);line-height:.9;margin-bottom:12px">Daddy's<br><span style="color:var(--accent)">Verdict</span></h2>
           <div id="res-name-badge" class="nbadge" style="margin-bottom:8px"></div>
           <p style="font-size:9px;opacity:.35;text-transform:uppercase;letter-spacing:.28em;margin-top:8px">Generated <span id="res-date"></span></p>
         </div>
@@ -218,21 +207,18 @@ select option{background:var(--g)}
           <span id="res-feel-badge" style="font-size:9px;opacity:.28;text-transform:uppercase;letter-spacing:.12em"></span>
         </div>
       </div>
-      <!-- Score grid -->
+
       <div style="margin-bottom:16px">
         <div class="ab"><div class="bar"></div><span class="barlbl">The 5-Dimension Breakdown</span></div>
         <div id="score-grid"></div>
       </div>
-      <!-- Total -->
+
       <div class="totblk">
         <p class="fl" style="margin-bottom:14px">Total Score</p>
-        <div class="totdisp">
-          <span id="res-total" class="totnum arch">-</span>
-          <span class="totden">/ 50</span>
-        </div>
+        <div class="totdisp"><span id="res-total" class="totnum arch">-</span><span class="totden">/ 50</span></div>
         <p id="res-tier" class="tierlbl"></p>
       </div>
-      <!-- Verdict -->
+
       <div style="margin-bottom:28px">
         <div class="ab"><div class="bar"></div><span class="barlbl">Daddy's Verdict</span></div>
         <div class="card">
@@ -243,7 +229,7 @@ select option{background:var(--g)}
           </div>
         </div>
       </div>
-      <!-- Name Direction -->
+
       <div id="res-dir-wrap" style="display:none;margin-bottom:28px">
         <div class="ab"><div class="bar" style="opacity:.5"></div><span class="barlbl" style="opacity:.65">Name Direction</span></div>
         <div class="cardd">
@@ -251,110 +237,96 @@ select option{background:var(--g)}
           <p id="res-direction" class="vtxt" style="color:rgba(255,255,255,.7)"></p>
         </div>
       </div>
-      <!-- Footer -->
+
       <div style="display:flex;justify-content:space-between;align-items:center;padding-top:20px;border-top:1px solid rgba(255,255,255,.04)">
         <p class="wm">Your Freelance Daddy</p>
-        <div style="display:flex;align-items:center;gap:10px">
-          <span style="font-size:8px;text-transform:uppercase;letter-spacing:.18em;opacity:.18">Powered by Daddy's Methodology</span>
-          <span style="opacity:.35;font-size:12px">&#9889;</span>
-        </div>
+        <div style="display:flex;align-items:center;gap:10px"><span style="font-size:8px;text-transform:uppercase;letter-spacing:.18em;opacity:.18">Powered by Daddy's Methodology</span><span style="opacity:.35;font-size:12px">&#9889;</span></div>
       </div>
     </div>
-    <!-- Buttons -->
+
     <div class="g3" style="margin-top:24px">
-      <button class="btnw" onclick="copyVerdict(this)">Copy Verdict</button>
-      <button class="btns" onclick="downloadPNG()">Save Social Card</button>
-      <button class="btns" onclick="generatePDF()">Download PDF</button>
+      <button class="btnw" type="button" onclick="copyVerdict(this)">Copy Verdict</button>
+      <button class="btns" type="button" onclick="downloadPNG()">Save Social Card</button>
+      <button class="btns" type="button" onclick="generatePDF()">Download PDF</button>
     </div>
-    <!-- CTA -->
+
     <div class="ctablk" style="margin-top:24px">
       <p class="fl" style="margin-bottom:8px">Daddy's Verdict On Your Name Is Free.</p>
-      <p style="font-size:13px;opacity:.45;line-height:1.7;margin-bottom:24px;max-width:500px;margin-left:auto;margin-right:auto">The full naming system, the strategy behind it, and the brand identity that makes it stick — that's the real work.</p>
+      <p style="font-size:13px;opacity:.45;line-height:1.7;margin-bottom:24px;max-width:500px;margin-left:auto;margin-right:auto">The full naming system, the strategy behind it, and the brand identity that makes it stick — that’s the real work.</p>
       <a href="mailto:borjanisajlovski@gmail.com" class="ctalink">Work With Daddy</a>
     </div>
-    <!-- Start over -->
+
     <div style="text-align:center;margin-top:20px;padding-bottom:32px">
-      <button onclick="startOver()" style="background:none;border:none;color:rgba(255,255,255,.25);font-family:'Space Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:.22em;cursor:pointer;padding:10px 20px"
-        onmouseover="this.style.color='rgba(255,255,255,.6)'"
-        onmouseout="this.style.color='rgba(255,255,255,.25)'">
-        Start Over
-      </button>
+      <button type="button" onclick="startOver()" style="background:none;border:none;color:rgba(255,255,255,.25);font-family:'Space Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:.22em;cursor:pointer;padding:10px 20px" onmouseover="this.style.color='rgba(255,255,255,.6)'" onmouseout="this.style.color='rgba(255,255,255,.25)'">Start Over</button>
     </div>
   </div>
 </div>
+</main>
 
 <script>
-// ── CONFIG ──────────────────────────────────────────────────────────
-// Your Gemini API key. Get a free one at aistudio.google.com
-var GK = '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';
+const API_ENDPOINT = '/api/name-test';
+const API_TIMEOUT = 45000;
+const S = { raw:'', name:'', feel:'', timer:null, controller:null, lastParsed:null, idx:0 };
+const LM = ['Daddy Is Thinking...','Running The Test...','Crunching The Numbers...','Pressure Testing The Name...','Writing Your Verdict...'];
+const DIMS = ['MEMORABILITY','CLARITY','DIFFERENTIATION','TONE FIT','LONGEVITY'];
+const ALL_H = ['MEMORABILITY','CLARITY','DIFFERENTIATION','TONE FIT','LONGEVITY','TOTAL SCORE','VERDICT','NAME DIRECTION','CLOSING LINE'];
 
-// Models to try in order — stops at the first one that works
-var GM = [
-  'llama-3.3-70b-versatile',
-  'llama3-70b-8192',
-  'mixtral-8x7b-32768'
-];
-
-// ── STATE ────────────────────────────────────────────────────────────
-var S = { raw:'', name:'', feel:'', timer:null, idx:0 };
-
-var LM = [
-  'Daddy Is Thinking...',
-  'Running The Test...',
-  'Crunching The Numbers...',
-  'Almost There...',
-  'Writing Your Verdict...'
-];
-
-var DIMS = ['MEMORABILITY','CLARITY','DIFFERENTIATION','TONE FIT','LONGEVITY'];
-
-var ALL_H = ['MEMORABILITY','CLARITY','DIFFERENTIATION','TONE FIT','LONGEVITY',
-             'TOTAL SCORE','VERDICT','NAME DIRECTION','CLOSING LINE'];
-
-// ── SCREENS ──────────────────────────────────────────────────────────
-function showScreen(id) {
+function showScreen(id){
   document.getElementById('si').style.display = id==='i' ? 'flex' : 'none';
   document.getElementById('sr').style.display = id==='r' ? 'flex' : 'none';
-  window.scrollTo(0,0);
+  window.scrollTo({top:0,behavior:'smooth'});
 }
 
-// ── LOADING ──────────────────────────────────────────────────────────
-function setLoad(on) {
-  var btn = document.getElementById('run-btn');
-  var flds = document.querySelectorAll('#si input, #si select');
-  var i;
-  if (on) {
+function setLoad(on){
+  const btn = document.getElementById('run-btn');
+  const flds = document.querySelectorAll('#si input, #si select');
+  if(on){
     S.idx = 0;
     btn.innerHTML = '<span class="spin"></span>' + LM[0];
     btn.disabled = true;
-    for (i=0;i<flds.length;i++) flds[i].disabled = true;
-    S.timer = setInterval(function(){
-      S.idx = (S.idx+1) % LM.length;
+    flds.forEach(el => el.disabled = true);
+    clearInterval(S.timer);
+    S.timer = setInterval(() => {
+      S.idx = (S.idx + 1) % LM.length;
       btn.innerHTML = '<span class="spin"></span>' + LM[S.idx];
     }, 1800);
   } else {
     clearInterval(S.timer);
     btn.innerHTML = 'Run The Test';
     btn.disabled = false;
-    for (i=0;i<flds.length;i++) flds[i].disabled = false;
+    flds.forEach(el => el.disabled = false);
   }
 }
 
-// ── ERRORS ───────────────────────────────────────────────────────────
-function showErr(msg) {
-  var b = document.getElementById('errbox');
+function showErr(msg){
+  const b = document.getElementById('errbox');
+  const ok = document.getElementById('okbox');
+  ok.style.display = 'none';
+  ok.textContent = '';
   b.textContent = msg;
   b.style.display = 'block';
 }
-function clearErr() {
-  var b = document.getElementById('errbox');
-  b.textContent = '';
-  b.style.display = 'none';
+function showOk(msg){
+  const b = document.getElementById('okbox');
+  const err = document.getElementById('errbox');
+  err.style.display = 'none';
+  err.textContent = '';
+  b.textContent = msg;
+  b.style.display = 'block';
+}
+function clearMsgs(){
+  document.getElementById('errbox').style.display = 'none';
+  document.getElementById('errbox').textContent = '';
+  document.getElementById('okbox').style.display = 'none';
+  document.getElementById('okbox').textContent = '';
 }
 
-// ── PROMPT ───────────────────────────────────────────────────────────
-function buildPrompt(name, what, who, feel) {
-  var fd = {
+function sanitizeInput(v,max){
+  return String(v || '').replace(/\s+/g,' ').replace(/[<>]/g,'').trim().slice(0,max);
+}
+
+function buildPrompt(name, what, who, feel){
+  const fd = {
     PREMIUM:'sophisticated, elevated, and exclusive',
     BOLD:'energetic, disruptive, and loud',
     SMART:'intellectual, credible, and authoritative',
@@ -362,214 +334,247 @@ function buildPrompt(name, what, who, feel) {
     MYSTERIOUS:'intriguing, edgy, and unconventional',
     DIRECT:'clear, no-nonsense, and functional'
   };
-  return 'You are a brutally honest brand strategist called Daddy with 8 years naming brands. '
-    + 'Short sharp sentences. No jargon. Never soften hard truths. Always reference the actual name.\n\n'
-    + 'Stress-test this brand name:\n'
-    + 'NAME: ' + name + '\n'
-    + 'WHAT THEY DO: ' + what + '\n'
-    + 'WHO IT IS FOR: ' + who + '\n'
-    + 'DESIRED FEELING: ' + (fd[feel]||feel) + '\n\n'
-    + 'Evaluate across 5 dimensions. For each: write the header, Score: X/10, one diagnosis sentence, micro-fix if score under 7.\n\n'
-    + 'Use EXACTLY this format:\n'
-    + 'MEMORABILITY\nScore: X/10\n[diagnosis]\n[micro-fix if needed]\n\n'
-    + 'CLARITY\nScore: X/10\n[diagnosis]\n[micro-fix if needed]\n\n'
-    + 'DIFFERENTIATION\nScore: X/10\n[diagnosis]\n[micro-fix if needed]\n\n'
-    + 'TONE FIT\nScore: X/10\n[diagnosis]\n[micro-fix if needed]\n\n'
-    + 'LONGEVITY\nScore: X/10\n[diagnosis]\n[micro-fix if needed]\n\n'
-    + 'TOTAL SCORE\n[number]/50\n\n'
-    + 'VERDICT\n[one sentence: asset or liability]\n[single most urgent fix]\n\n'
-    + 'NAME DIRECTION\n[If under 35: 3 conceptual directions, one sentence each. If 35+: one sentence to strengthen the current name.]\n\n'
-    + 'CLOSING LINE\n[one punchy sentence in Daddy voice, personal to this situation]\n\n'
-    + 'Plain text only. No asterisks. No hashtags. No markdown. Under 500 words.';
+  return 'You are a brutally honest brand strategist called Daddy with strong naming instincts. '
+    + 'Short sharp sentences. No jargon. No fluff. Always reference the actual name. '\
+    + 'Keep the tone direct, calm, dominant, and useful.\\n\\n'
+    + 'Stress-test this brand name:\\n'
+    + 'NAME: ' + name + '\\n'
+    + 'WHAT THEY DO: ' + what + '\\n'
+    + 'WHO IT IS FOR: ' + who + '\\n'
+    + 'DESIRED FEELING: ' + (fd[feel] || feel) + '\\n\\n'
+    + 'Evaluate across 5 dimensions. For each: write the header, Score: X/10, one diagnosis sentence, micro-fix if score under 7.\\n\\n'
+    + 'Use EXACTLY this format:\\n'
+    + 'MEMORABILITY\\nScore: X/10\\n[diagnosis]\\n[micro-fix if needed]\\n\\n'
+    + 'CLARITY\\nScore: X/10\\n[diagnosis]\\n[micro-fix if needed]\\n\\n'
+    + 'DIFFERENTIATION\\nScore: X/10\\n[diagnosis]\\n[micro-fix if needed]\\n\\n'
+    + 'TONE FIT\\nScore: X/10\\n[diagnosis]\\n[micro-fix if needed]\\n\\n'
+    + 'LONGEVITY\\nScore: X/10\\n[diagnosis]\\n[micro-fix if needed]\\n\\n'
+    + 'TOTAL SCORE\\n[number]/50\\n\\n'
+    + 'VERDICT\\n[one sentence: asset or liability]\\n[single most urgent fix]\\n\\n'
+    + 'NAME DIRECTION\\n[If under 35: 3 conceptual directions, one sentence each. If 35+: one sentence to strengthen the current name.]\\n\\n'
+    + 'CLOSING LINE\\n[one punchy sentence in Daddy voice, personal to this situation]\\n\\n'
+    + 'Plain text only. No markdown. No bullets. Under 500 words.';
 }
 
-// ── API CALL ─────────────────────────────────────────────────────────
-function runTest() {
-  var name = document.getElementById('inp-name').value.trim();
-  var what = document.getElementById('inp-what').value.trim();
-  var who  = document.getElementById('inp-who').value.trim();
-  var feel = document.getElementById('inp-feel').value;
-  if (!name) { showErr('Field 01 is empty. Give Daddy a name to test.'); return; }
-  if (!what) { showErr('Field 02 is empty. What does this business do?'); return; }
-  if (!who)  { showErr('Field 03 is empty. Who is this for?'); return; }
-  S.name = name; S.feel = feel;
-  clearErr();
+function validateInputs(name,what,who){
+  if(!name) return 'Field 01 is empty. Give Daddy a name to test.';
+  if(name.length < 2) return 'That name is too short to stress-test properly.';
+  if(!what) return 'Field 02 is empty. What does this business do?';
+  if(!who) return 'Field 03 is empty. Who is this for?';
+  return '';
+}
+
+async function runTest(){
+  const name = sanitizeInput(document.getElementById('inp-name').value,80);
+  const what = sanitizeInput(document.getElementById('inp-what').value,140);
+  const who  = sanitizeInput(document.getElementById('inp-who').value,140);
+  const feel = document.getElementById('inp-feel').value;
+  const validation = validateInputs(name,what,who);
+  if(validation){ showErr(validation); return; }
+  S.name = name;
+  S.feel = feel;
+  clearMsgs();
   setLoad(true);
-  tryModel(0, buildPrompt(name, what, who, feel));
-}
-
-function tryModel(mi, prompt) {
-  if (mi >= GM.length) {
-    setLoad(false);
-    showErr('Models failed. Check Groq key.');
-    return;
-  }
-  fetch('https://api.groq.com/openai/v1/chat/completions', {
-    method: 'POST',
-    headers: {'Content-Type':'application/json', 'Authorization':'Bearer ' + GK},
-    body: JSON.stringify({
-      model: GM[mi],
-      messages: [{role:'user', content: prompt}],
-      temperature: 0.82,
-      max_tokens: 1400
-    })
-  })
-  .then(res => res.json().then(d => ({s: res.status, d})))
-  .then(r => {
-    if (r.s !== 200) {
-      if (r.s === 429) showErr('Rate limit. Free: 30/min. Wait.');
-      else tryModel(mi+1, prompt);
-      return;
-    }
-    var txt = r.d.choices?.[0]?.message?.content || '';
-    if (!txt) { tryModel(mi+1, prompt); return; }
-    S.raw = txt.trim();
-    setLoad(false);
+  try {
+    const prompt = buildPrompt(name, what, who, feel);
+    const txt = await askBackend(prompt);
+    if(!txt || !txt.trim()) throw new Error('Empty response from backend.');
+    S.raw = cleanModelText(txt);
+    S.lastParsed = parseEverything(S.raw);
     renderResult();
-  })
-  .catch(err => {
+    showOk('Test complete. Daddy has spoken.');
+  } catch (err) {
+    showErr(err.message || 'Something broke. Try again.');
+  } finally {
     setLoad(false);
-    showErr('Error: ' + err.message);
-  });
-}
-
-// ── PARSING ──────────────────────────────────────────────────────────
-function getBlock(text, hdr) {
-  var up = text.toUpperCase();
-  var hi = up.indexOf(hdr.toUpperCase());
-  if (hi===-1) return '';
-  var end = text.length;
-  for (var i=0;i<ALL_H.length;i++) {
-    if (ALL_H[i].toUpperCase()===hdr.toUpperCase()) continue;
-    var p = up.indexOf(ALL_H[i].toUpperCase(), hi+hdr.length+1);
-    if (p!==-1 && p<end) end=p;
   }
-  return text.slice(hi+hdr.length, end).replace(/^[\s:\-]+/,'').trim();
 }
 
-function getScore(block) {
-  var m = block.match(/score\s*:\s*(\d{1,2})\s*(?:\/\s*10)?/i);
-  if (m) return Math.min(10,Math.max(1,parseInt(m[1],10)));
+async function askBackend(prompt){
+  if(!API_ENDPOINT || API_ENDPOINT === '/api/name-test'){
+    // Keep the app usable for handoff. User must wire the backend.
+  }
+  if(S.controller) S.controller.abort();
+  S.controller = new AbortController();
+  const timeout = setTimeout(() => S.controller.abort(), API_TIMEOUT);
+  try {
+    const res = await fetch(API_ENDPOINT, {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ prompt }),
+      signal: S.controller.signal
+    });
+    let data = {};
+    try { data = await res.json(); } catch(e) { data = {}; }
+    if(!res.ok){
+      throw new Error(data.error || ('Request failed (' + res.status + ').'));
+    }
+    return data.text || data.output || '';
+  } catch (err) {
+    if(err.name === 'AbortError') throw new Error('Request timed out. Your backend took too long.');
+    if(err.message === 'Failed to fetch'){
+      throw new Error('Cannot reach /api/name-test. Connect the backend proxy first.');
+    }
+    throw err;
+  } finally {
+    clearTimeout(timeout);
+  }
+}
+
+function cleanModelText(txt){
+  return String(txt || '')
+    .replace(/```[\s\S]*?```/g,'')
+    .replace(/^#{1,6}\s*/gm,'')
+    .replace(/\*\*/g,'')
+    .replace(/\*/g,'')
+    .replace(/\r/g,'')
+    .replace(/\n{3,}/g,'\n\n')
+    .trim();
+}
+
+function getBlock(text, hdr){
+  const up = text.toUpperCase();
+  const hi = up.indexOf(hdr.toUpperCase());
+  if(hi === -1) return '';
+  let end = text.length;
+  for(let i=0;i<ALL_H.length;i++){
+    const key = ALL_H[i].toUpperCase();
+    if(key === hdr.toUpperCase()) continue;
+    const p = up.indexOf(key, hi + hdr.length + 1);
+    if(p !== -1 && p < end) end = p;
+  }
+  return text.slice(hi + hdr.length, end).replace(/^[\s:\-]+/,'').trim();
+}
+
+function getScore(block){
+  if(!block) return null;
+  let m = block.match(/score\s*:\s*(\d{1,2})\s*(?:\/\s*10)?/i);
+  if(m) return clamp(parseInt(m[1],10),0,10);
   m = block.match(/^\s*(\d{1,2})\s*\/\s*10/m);
-  if (m) return Math.min(10,Math.max(1,parseInt(m[1],10)));
-  m = block.match(/\b(10|[1-9])\b/);
-  if (m) return Math.min(10,Math.max(1,parseInt(m[1],10)));
+  if(m) return clamp(parseInt(m[1],10),0,10);
   return null;
 }
 
-function getDiag(block) {
-  return block
+function getDiag(block){
+  return String(block || '')
     .replace(/score\s*:\s*\d{1,2}\s*(?:\/\s*10)?/gi,'')
-    .split('\n').map(function(l){return l.trim();})
-    .filter(function(l){return l.length>5;})
-    .slice(0,4).join(' ').trim();
+    .split('\n')
+    .map(l => l.trim())
+    .filter(l => l.length > 5)
+    .slice(0,4)
+    .join(' ')
+    .trim();
 }
 
-function getTotal(text) {
-  var blk = getBlock(text,'TOTAL SCORE');
-  var m = blk.match(/(\d{1,2})\s*\/\s*50/);
-  if (m) return Math.min(50,Math.max(0,parseInt(m[1],10)));
-  m = blk.match(/\b([0-4]?\d)\b/);
-  if (m) { var v=parseInt(m[1],10); if(v<=50) return v; }
+function getTotal(text){
+  const blk = getBlock(text,'TOTAL SCORE');
+  let m = blk.match(/(\d{1,2})\s*\/\s*50/);
+  if(m) return clamp(parseInt(m[1],10),0,50);
+  const scores = DIMS.map(dim => getScore(getBlock(text,dim))).filter(v => typeof v === 'number');
+  if(scores.length === 5){
+    return scores.reduce((a,b) => a+b, 0);
+  }
   return null;
 }
 
-function getTier(n) {
-  if (n>=40) return {lbl:'DADDY APPROVED', col:'#00E5A0'};
-  if (n>=30) return {lbl:'NEEDS WORK',      col:'#ffffff'};
-  if (n>=20) return {lbl:'RISKY TERRITORY', col:'#ff6b35'};
-  return            {lbl:'START OVER',      col:'#ff3535'};
+function clamp(v,min,max){ return Math.min(max, Math.max(min, v)); }
+
+function getTier(n){
+  if(n >= 40) return {lbl:'DADDY APPROVED', col:'#00E5A0'};
+  if(n >= 30) return {lbl:'NEEDS WORK', col:'#ffffff'};
+  if(n >= 20) return {lbl:'RISKY TERRITORY', col:'#ff6b35'};
+  return {lbl:'START OVER', col:'#ff3535'};
 }
 
-// ── RENDER ───────────────────────────────────────────────────────────
-function renderResult() {
-  var text = S.raw;
-  var grid = document.getElementById('score-grid');
+function parseEverything(text){
+  const dims = DIMS.map(dim => {
+    const blk = getBlock(text, dim);
+    return { dim, block: blk, score: getScore(blk), diag: getDiag(blk) || 'See full verdict below.' };
+  });
+  const total = getTotal(text);
+  const tier = total !== null ? getTier(total) : {lbl:'-', col:'#fff'};
+  const verdict = getBlock(text,'VERDICT') || text;
+  const closing = getBlock(text,'CLOSING LINE') || '';
+  const direction = getBlock(text,'NAME DIRECTION') || '';
+  return { dims, total, tier, verdict, closing, direction };
+}
+
+function renderResult(){
+  const p = S.lastParsed || parseEverything(S.raw);
+  const grid = document.getElementById('score-grid');
   grid.innerHTML = '';
 
-  for (var i=0;i<DIMS.length;i++) {
-    var dim  = DIMS[i];
-    var blk  = getBlock(text, dim);
-    var sc   = getScore(blk);
-    var diag = getDiag(blk) || 'See full verdict below.';
-    var pct  = sc ? (sc/10*100) : 0;
-    var row  = document.createElement('div');
+  p.dims.forEach((item, i) => {
+    const pct = item.score !== null ? (item.score / 10 * 100) : 0;
+    const row = document.createElement('div');
     row.className = 'srow';
-    row.style.animation = 'fu .5s ease '+(0.05+i*.09)+'s both';
-    row.innerHTML =
-      '<div class="shdr">'
-      + '<span class="sdim">'+dim+'</span>'
-      + '<span class="snw"><span class="snum">'+(sc!==null?sc:'-')+'</span><span class="sden">/ 10</span></span>'
+    row.style.animation = 'fu .5s ease ' + (0.05 + i * .09) + 's both';
+    row.innerHTML = '<div class="shdr">'
+      + '<span class="sdim">' + escapeHtml(item.dim) + '</span>'
+      + '<span class="snw"><span class="snum">' + (item.score !== null ? item.score : '-') + '</span><span class="sden">/ 10</span></span>'
       + '</div>'
-      + '<div class="sbt"><div class="sbf" data-p="'+pct+'"></div></div>'
-      + '<p class="sdiag">'+diag+'</p>';
+      + '<div class="sbt"><div class="sbf" data-p="' + pct + '"></div></div>'
+      + '<p class="sdiag">' + escapeHtml(item.diag) + '</p>';
     grid.appendChild(row);
-  }
-
-  requestAnimationFrame(function(){
-    setTimeout(function(){
-      var bars = document.querySelectorAll('.sbf');
-      for (var b=0;b<bars.length;b++) bars[b].style.width = bars[b].getAttribute('data-p')+'%';
-    },150);
   });
 
-  var total = getTotal(text);
-  var tier  = total!==null ? getTier(total) : {lbl:'-',col:'#fff'};
+  requestAnimationFrame(() => {
+    setTimeout(() => {
+      document.querySelectorAll('.sbf').forEach(bar => {
+        bar.style.width = bar.getAttribute('data-p') + '%';
+      });
+    }, 150);
+  });
 
-  document.getElementById('res-total').textContent = total!==null ? String(total) : '-';
-  var te = document.getElementById('res-tier');
-  te.textContent = tier.lbl; te.style.color = tier.col;
+  document.getElementById('res-total').textContent = p.total !== null ? String(p.total) : '-';
+  const te = document.getElementById('res-tier');
+  te.textContent = p.tier.lbl;
+  te.style.color = p.tier.col;
 
-  document.getElementById('res-verdict').textContent  = getBlock(text,'VERDICT')  || text;
-  document.getElementById('res-closing').textContent  = getBlock(text,'CLOSING LINE') || '';
+  document.getElementById('res-verdict').textContent = p.verdict;
+  document.getElementById('res-closing').textContent = p.closing;
 
-  var dir = getBlock(text,'NAME DIRECTION');
-  var dw  = document.getElementById('res-dir-wrap');
-  if (dir && dir.length>10) {
-    document.getElementById('res-direction').textContent = dir;
+  const dw = document.getElementById('res-dir-wrap');
+  if(p.direction && p.direction.length > 10){
+    document.getElementById('res-direction').textContent = p.direction;
     dw.style.display = 'block';
   } else {
     dw.style.display = 'none';
   }
 
   document.getElementById('res-name-badge').textContent = S.name;
-  document.getElementById('res-feel-badge').textContent = 'Target Feel: '+S.feel;
-  document.getElementById('res-date').textContent = new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+  document.getElementById('res-feel-badge').textContent = 'Target Feel: ' + S.feel;
+  document.getElementById('res-date').textContent = formatDate();
 
-  document.getElementById('sc-name').textContent    = S.name.toUpperCase();
-  document.getElementById('sc-score').textContent   = (total!==null?total:'-')+'/50';
-  var st = document.getElementById('sc-tier');
-  st.textContent = tier.lbl; st.style.color = tier.col;
-  document.getElementById('sc-closing').textContent = getBlock(text,'CLOSING LINE') || '';
+  document.getElementById('sc-name').textContent = S.name.toUpperCase();
+  document.getElementById('sc-score').textContent = (p.total !== null ? p.total : '-') + '/50';
+  const st = document.getElementById('sc-tier');
+  st.textContent = p.tier.lbl;
+  st.style.color = p.tier.col;
+  document.getElementById('sc-closing').textContent = p.closing || '';
 
-  // ── POPULATE PDF CONTAINER ──
   document.getElementById('pdf-name').textContent = S.name.toUpperCase();
   document.getElementById('pdf-feel').textContent = S.feel;
-  document.getElementById('pdf-date').textContent = new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
-  document.getElementById('pdf-total').textContent = (total!==null?total:'-')+'/50';
-  var pt = document.getElementById('pdf-tier');
-  pt.textContent = tier.lbl; pt.style.color = tier.col;
-  document.getElementById('pdf-verdict').textContent = getBlock(text,'VERDICT') || '';
-  document.getElementById('pdf-closing').textContent = getBlock(text,'CLOSING LINE') || '';
+  document.getElementById('pdf-date').textContent = formatDate();
+  document.getElementById('pdf-total').textContent = (p.total !== null ? p.total : '-') + '/50';
+  const pt = document.getElementById('pdf-tier');
+  pt.textContent = p.tier.lbl;
+  pt.style.color = p.tier.col;
+  document.getElementById('pdf-verdict').textContent = p.verdict || '';
+  document.getElementById('pdf-closing').textContent = p.closing || '';
 
-  // Populate PDF score grid
-  var pdfGrid = document.getElementById('pdf-grid');
+  const pdfGrid = document.getElementById('pdf-grid');
   pdfGrid.innerHTML = '';
-  for (var i=0;i<DIMS.length;i++) {
-    var dim = DIMS[i];
-    var blk = getBlock(text, dim);
-    var sc = getScore(blk);
-    var diag = getDiag(blk) || '';
-    var row = document.createElement('div');
+  p.dims.forEach(item => {
+    const row = document.createElement('div');
     row.style.marginBottom = '10px';
-    row.innerHTML = '<p style="color:#00E5A0;font-weight:700;margin-bottom:4px">'+dim+': '+(sc!==null?sc:'-')+'/10</p>'
-                   + '<p style="color:rgba(255,255,255,.8);font-size:12px;line-height:1.5">'+diag+'</p>';
+    row.innerHTML = '<p style="color:#00E5A0;font-weight:700;margin-bottom:4px">' + escapeHtml(item.dim) + ': ' + (item.score !== null ? item.score : '-') + '/10</p>'
+      + '<p style="color:rgba(255,255,255,.8);font-size:12px;line-height:1.5">' + escapeHtml(item.diag) + '</p>';
     pdfGrid.appendChild(row);
-  }
+  });
 
-  // Name direction for PDF
-  if (dir && dir.length>10) {
-    document.getElementById('pdf-direction').textContent = dir;
+  if(p.direction && p.direction.length > 10){
+    document.getElementById('pdf-direction').textContent = p.direction;
     document.getElementById('pdf-dir-wrap').style.display = 'block';
   } else {
     document.getElementById('pdf-dir-wrap').style.display = 'none';
@@ -578,36 +583,51 @@ function renderResult() {
   showScreen('r');
 }
 
-// ── EXPORTS ──────────────────────────────────────────────────────────
-function copyVerdict(btn) {
-  var txt = S.raw || 'No verdict available.';
-  var orig = btn.innerHTML;
-  function done(){
-    btn.innerHTML='Copied!';
-    btn.style.background='#00E5A0';
-    btn.style.color='#000';
-    setTimeout(function(){
-      btn.innerHTML=orig;
-      btn.style.background='#fff';
-      btn.style.color='#000';
-    },2000);
-  }
-  if (navigator.clipboard) {
-    navigator.clipboard.writeText(txt).then(done).catch(done);
-  } else {
-    var ta=document.createElement('textarea');
-    ta.value=txt;
-    ta.style.position='fixed';
-    ta.style.opacity='0';
-    document.body.appendChild(ta);
-    ta.select();
-    document.execCommand('copy');
-    document.body.removeChild(ta);
-    done();
-  }
+function escapeHtml(str){
+  return String(str)
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;')
+    .replace(/'/g,'&#039;');
 }
 
-function downloadPNG() {
+function formatDate(){
+  return new Date().toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+}
+
+async function copyVerdict(btn){
+  const txt = S.raw || 'No verdict available.';
+  const orig = btn.innerHTML;
+  const done = () => {
+    btn.innerHTML = 'Copied!';
+    btn.style.background = '#00E5A0';
+    btn.style.color = '#000';
+    setTimeout(() => {
+      btn.innerHTML = orig;
+      btn.style.background = '#fff';
+      btn.style.color = '#000';
+    }, 2000);
+  };
+  try {
+    if(navigator.clipboard && window.isSecureContext){
+      await navigator.clipboard.writeText(txt);
+      done();
+      return;
+    }
+  } catch(e){}
+  const ta = document.createElement('textarea');
+  ta.value = txt;
+  ta.style.position = 'fixed';
+  ta.style.opacity = '0';
+  document.body.appendChild(ta);
+  ta.select();
+  document.execCommand('copy');
+  document.body.removeChild(ta);
+  done();
+}
+
+function downloadPNG(){
   html2canvas(document.getElementById('scard'),{
     backgroundColor:'#0a0a0a',
     scale:2,
@@ -615,20 +635,18 @@ function downloadPNG() {
     width:1080,
     height:1350,
     useCORS:true
-  })
-  .then(function(c){
-    var a=document.createElement('a');
-    a.download='DaddyNamingLab-'+S.name.replace(/\s+/g,'-')+'.png';
-    a.href=c.toDataURL('image/png');
+  }).then(canvas => {
+    const a = document.createElement('a');
+    a.download = 'DaddyNamingLab-' + (S.name || 'result').replace(/\s+/g,'-') + '.png';
+    a.href = canvas.toDataURL('image/png');
     a.click();
-  })
-  .catch(function(){
+  }).catch(() => {
     alert('Image export failed. Try PDF instead.');
   });
 }
 
-function generatePDF() {
-  var pdfEl = document.getElementById('pdf-capture');
+function generatePDF(){
+  const pdfEl = document.getElementById('pdf-capture');
   pdfEl.style.display = 'block';
 
   html2canvas(pdfEl,{
@@ -637,78 +655,106 @@ function generatePDF() {
     logging:false,
     useCORS:true,
     width:794,
-    windowHeight:2000
-  })
-  .then(function(canvas){
+    windowHeight:pdfEl.scrollHeight + 120
+  }).then(canvas => {
     pdfEl.style.display = 'none';
+    const J = window.jspdf.jsPDF;
+    const pdf = new J({orientation:'portrait',unit:'mm',format:'a4'});
+    const pageWidth = pdf.internal.pageSize.getWidth();
+    const pageHeight = pdf.internal.pageSize.getHeight();
+    const imgWidth = pageWidth;
+    const imgHeight = canvas.height * pageWidth / canvas.width;
 
-    var J = window.jspdf.jsPDF;
-    var pdf = new J({orientation:'portrait',unit:'mm',format:'a4'});
-    var pageWidth = pdf.internal.pageSize.getWidth();
-    var pageHeight = pdf.internal.pageSize.getHeight();
+    let heightLeft = imgHeight;
+    let position = 0;
+    pdf.addImage(canvas.toDataURL('image/png'),'PNG',0,position,imgWidth,imgHeight);
+    heightLeft -= pageHeight;
 
-    var imgWidth = pageWidth;
-    var imgHeight = (canvas.height * pageWidth) / canvas.width;
-    var imgData = canvas.toDataURL('image/png');
-
-    var position = 0;
-
-    while (position < imgHeight) {
-      var pageCanvas = document.createElement('canvas');
-      pageCanvas.width = canvas.width;
-      pageCanvas.height = Math.min(canvas.height - (position * canvas.width / pageWidth), pageHeight * canvas.width / pageWidth);
-
-      var pageCtx = pageCanvas.getContext('2d');
-      pageCtx.drawImage(
-        canvas,
-        0, position * canvas.width / pageWidth,
-        canvas.width, pageCanvas.height,
-        0, 0,
-        canvas.width, pageCanvas.height
-      );
-
-      var pageImgData = pageCanvas.toDataURL('image/png');
-      var pageImgHeight = (pageCanvas.height * pageWidth) / canvas.width;
-
-      pdf.addImage(pageImgData, 'PNG', 0, 0, pageWidth, pageImgHeight);
-
-      position += pageHeight;
-      if (position < imgHeight) pdf.addPage();
+    while(heightLeft > 0){
+      position = heightLeft - imgHeight;
+      pdf.addPage();
+      pdf.addImage(canvas.toDataURL('image/png'),'PNG',0,position,imgWidth,imgHeight);
+      heightLeft -= pageHeight;
     }
 
-    pdf.save('DaddyNamingLab-'+S.name.replace(/\s+/g,'-')+'.pdf');
-  })
-  .catch(function(err){
-    document.getElementById('pdf-capture').style.display = 'none';
-    alert('PDF export failed: '+err.message);
+    pdf.save('DaddyNamingLab-' + (S.name || 'result').replace(/\s+/g,'-') + '.pdf');
+  }).catch(err => {
+    pdfEl.style.display = 'none';
+    alert('PDF export failed: ' + err.message);
   });
 }
 
-// ── RESET ────────────────────────────────────────────────────────────
-function startOver() {
-  document.getElementById('inp-name').value='';
-  document.getElementById('inp-what').value='';
-  document.getElementById('inp-who').value='';
-  document.getElementById('inp-feel').selectedIndex=0;
-  S.raw=''; S.name=''; S.feel='';
-  document.getElementById('score-grid').innerHTML='';
-  document.getElementById('res-verdict').textContent='';
-  document.getElementById('res-closing').textContent='';
-  document.getElementById('res-direction').textContent='';
-  document.getElementById('res-dir-wrap').style.display='none';
-  document.getElementById('res-total').textContent='-';
-  document.getElementById('res-tier').textContent='';
-  clearErr();
+function startOver(){
+  document.getElementById('inp-name').value = '';
+  document.getElementById('inp-what').value = '';
+  document.getElementById('inp-who').value = '';
+  document.getElementById('inp-feel').selectedIndex = 0;
+  S.raw = '';
+  S.name = '';
+  S.feel = '';
+  S.lastParsed = null;
+  document.getElementById('score-grid').innerHTML = '';
+  document.getElementById('res-verdict').textContent = '';
+  document.getElementById('res-closing').textContent = '';
+  document.getElementById('res-direction').textContent = '';
+  document.getElementById('res-dir-wrap').style.display = 'none';
+  document.getElementById('res-total').textContent = '-';
+  document.getElementById('res-tier').textContent = '';
+  clearMsgs();
   showScreen('i');
+  document.getElementById('inp-name').focus();
 }
 
-// Enter key submits
-document.addEventListener('keydown',function(e){
-  if (e.key==='Enter' && document.getElementById('si').style.display!=='none') {
-    var b=document.getElementById('run-btn');
-    if (!b.disabled) runTest();
+['inp-name','inp-what','inp-who'].forEach(id => {
+  document.getElementById(id).addEventListener('input', clearMsgs);
+});
+
+document.addEventListener('keydown', function(e){
+  if(e.key === 'Enter' && document.getElementById('si').style.display !== 'none'){
+    if(['INPUT','SELECT'].includes(document.activeElement.tagName)){
+      e.preventDefault();
+      const b = document.getElementById('run-btn');
+      if(!b.disabled) runTest();
+    }
+  }
+  if(e.key === 'Escape' && document.getElementById('sr').style.display !== 'none'){
+    startOver();
   }
 });
 </script>
+
+<!--
+BACKEND NEEDED
+
+Use this with a server-side endpoint at /api/name-test.
+Example Vercel serverless function:
+
+export default async function handler(req, res) {
+  if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
+  try {
+    const { prompt } = req.body || {};
+    const groqRes = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + process.env.GROQ_API_KEY
+      },
+      body: JSON.stringify({
+        model: 'llama-3.3-70b-versatile',
+        messages: [{ role: 'user', content: prompt }],
+        temperature: 0.82,
+        max_tokens: 1400
+      })
+    });
+    const data = await groqRes.json();
+    if (!groqRes.ok) {
+      return res.status(groqRes.status).json({ error: data?.error?.message || 'Groq request failed' });
+    }
+    return res.status(200).json({ text: data?.choices?.[0]?.message?.content || '' });
+  } catch (err) {
+    return res.status(500).json({ error: err.message || 'Server error' });
+  }
+}
+-->
 </body>
 </html>
