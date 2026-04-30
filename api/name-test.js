@@ -27,10 +27,10 @@ export default async function handler(req, res) {
             }
           ],
           generationConfig: {
-            temperature: 0.95,
-            topP: 0.97,
+            temperature: 0.9,
+            topP: 0.95,
             topK: 40,
-            maxOutputTokens: 1400,
+            maxOutputTokens: 1600,
             responseMimeType: 'application/json'
           }
         })
@@ -49,19 +49,29 @@ export default async function handler(req, res) {
     try {
       const parsed = JSON.parse(text);
       if (parsed && typeof parsed === 'object' && parsed.verdict) {
+        const dims = ['memorability', 'clarity', 'differentiation', 'tone_fit', 'longevity'];
+        const lines = dims.map(dim => {
+          const label = dim.replace('_', ' ').toUpperCase();
+          const score = parsed.scores?.[dim];
+          const diag = parsed.diagnosis?.[dim] || '';
+          const fix = parsed.micro_fix?.[dim] || '';
+          const fixLine = fix ? `\nMicro-fix: ${fix}` : '';
+          return `${label}\nScore: ${score}/10\n${diag}${fixLine}`;
+        });
+
+        const total = parsed.total_score ?? dims.reduce((acc, d) => acc + (parsed.scores?.[d] || 0), 0);
+
         text = [
-          `MEMORABILITY\nScore: ${parsed.scores?.memorability ?? 7}/10\n${parsed.diagnosis?.memorability || ''}`,
-          `CLARITY\nScore: ${parsed.scores?.clarity ?? 7}/10\n${parsed.diagnosis?.clarity || ''}`,
-          `DIFFERENTIATION\nScore: ${parsed.scores?.differentiation ?? 7}/10\n${parsed.diagnosis?.differentiation || ''}`,
-          `TONE FIT\nScore: ${parsed.scores?.tone_fit ?? 7}/10\n${parsed.diagnosis?.tone_fit || ''}`,
-          `LONGEVITY\nScore: ${parsed.scores?.longevity ?? 7}/10\n${parsed.diagnosis?.longevity || ''}`,
-          `TOTAL SCORE\n${parsed.total_score ?? 35}/50`,
+          ...lines,
+          `TOTAL SCORE\n${total}/50`,
           `VERDICT\n${parsed.verdict || ''}`,
           `NAME DIRECTION\n${parsed.direction || ''}`,
           `CLOSING LINE\n${parsed.closing_line || ''}`
         ].join('\n\n');
       }
-    } catch (e) {}
+    } catch (e) {
+      // text stays as-is if JSON parse fails
+    }
 
     return res.status(200).json({ text });
   } catch (error) {
