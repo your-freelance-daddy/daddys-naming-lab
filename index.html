@@ -336,7 +336,6 @@ function buildPrompt(name, what, who, feel){
     DIRECT: 'clear, no-nonsense, and functional'
   };
   const feelDesc = fd[feel] || feel;
-
   return `You are a brutally honest brand strategist called Daddy. Short, sharp sentences. No jargon. No fluff. You must reference the actual name "${name}" directly in every diagnosis — no generic answers.
 
 Stress-test this brand name:
@@ -374,7 +373,7 @@ Return ONLY a valid JSON object matching this exact schema. No extra text, no ma
   "total_score": <exact sum of all 5 scores as integer>,
   "verdict": "<one sentence: is '${name}' an asset or a liability for ${who}. Then the single most urgent fix.>",
   "direction": "<if total_score is under 35: three conceptual alternative name directions, one sentence each. If 35 or above: one sentence on how to sharpen '${name}'.>",
-  "closing_line": "<one punchy sentence in Daddy's voice, written specifically for this name and this situation>"
+  "closing_line": "<one punchy sentence in Daddy voice, written specifically for this name and this situation>"
 }`;
 }
 
