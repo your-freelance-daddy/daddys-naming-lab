@@ -328,32 +328,54 @@ function sanitizeInput(v,max){
 
 function buildPrompt(name, what, who, feel){
   const fd = {
-    PREMIUM:'sophisticated, elevated, and exclusive',
-    BOLD:'energetic, disruptive, and loud',
-    SMART:'intellectual, credible, and authoritative',
-    WARM:'approachable, human, and trustworthy',
-    MYSTERIOUS:'intriguing, edgy, and unconventional',
-    DIRECT:'clear, no-nonsense, and functional'
+    PREMIUM: 'sophisticated, elevated, and exclusive',
+    BOLD: 'energetic, disruptive, and loud',
+    SMART: 'intellectual, credible, and authoritative',
+    WARM: 'approachable, human, and trustworthy',
+    MYSTERIOUS: 'intriguing, edgy, and unconventional',
+    DIRECT: 'clear, no-nonsense, and functional'
   };
-  return 'You are a brutally honest brand strategist called Daddy with strong naming instincts. '
-    + 'Short sharp sentences. No jargon. No fluff. Always reference the actual name. ' + 'Keep the tone direct, calm, dominant, and useful.\n\n'
-    + 'Stress-test this brand name:\\n'
-    + 'NAME: ' + name + '\\n'
-    + 'WHAT THEY DO: ' + what + '\\n'
-    + 'WHO IT IS FOR: ' + who + '\\n'
-    + 'DESIRED FEELING: ' + (fd[feel] || feel) + '\\n\\n'
-    + 'Evaluate across 5 dimensions. For each: write the header, Score: X/10, one diagnosis sentence, micro-fix if score under 7.\\n\\n'
-    + 'Use EXACTLY this format:\\n'
-    + 'MEMORABILITY\\nScore: X/10\\n[diagnosis]\\n[micro-fix if needed]\\n\\n'
-    + 'CLARITY\\nScore: X/10\\n[diagnosis]\\n[micro-fix if needed]\\n\\n'
-    + 'DIFFERENTIATION\\nScore: X/10\\n[diagnosis]\\n[micro-fix if needed]\\n\\n'
-    + 'TONE FIT\\nScore: X/10\\n[diagnosis]\\n[micro-fix if needed]\\n\\n'
-    + 'LONGEVITY\\nScore: X/10\\n[diagnosis]\\n[micro-fix if needed]\\n\\n'
-    + 'TOTAL SCORE\\n[number]/50\\n\\n'
-    + 'VERDICT\\n[one sentence: asset or liability]\\n[single most urgent fix]\\n\\n'
-    + 'NAME DIRECTION\\n[If under 35: 3 conceptual directions, one sentence each. If 35+: one sentence to strengthen the current name.]\\n\\n'
-    + 'CLOSING LINE\\n[one punchy sentence in Daddy voice, personal to this situation]\\n\\n'
-    + 'Plain text only. No markdown. No bullets. Under 500 words.';
+  const feelDesc = fd[feel] || feel;
+
+  return `You are a brutally honest brand strategist called Daddy. Short, sharp sentences. No jargon. No fluff. You must reference the actual name "${name}" directly in every diagnosis — no generic answers.
+
+Stress-test this brand name:
+NAME: ${name}
+WHAT THEY DO: ${what}
+WHO IT IS FOR: ${who}
+DESIRED FEELING: ${feelDesc}
+
+Evaluate across 5 dimensions. Each score must be genuinely earned and specific to "${name}". Scores should vary — do not cluster them at 7.
+
+Return ONLY a valid JSON object matching this exact schema. No extra text, no markdown.
+
+{
+  "scores": {
+    "memorability": <integer 1-10>,
+    "clarity": <integer 1-10>,
+    "differentiation": <integer 1-10>,
+    "tone_fit": <integer 1-10>,
+    "longevity": <integer 1-10>
+  },
+  "diagnosis": {
+    "memorability": "<1-2 direct sentences about how memorable '${name}' is and why>",
+    "clarity": "<1-2 direct sentences about how clearly '${name}' signals what it does>",
+    "differentiation": "<1-2 direct sentences about how distinct '${name}' is in the ${what} space>",
+    "tone_fit": "<1-2 direct sentences about whether '${name}' feels ${feelDesc}>",
+    "longevity": "<1-2 direct sentences about whether '${name}' will age well>"
+  },
+  "micro_fix": {
+    "memorability": "<only if score below 7: one concrete fix. Otherwise empty string>",
+    "clarity": "<only if score below 7: one concrete fix. Otherwise empty string>",
+    "differentiation": "<only if score below 7: one concrete fix. Otherwise empty string>",
+    "tone_fit": "<only if score below 7: one concrete fix. Otherwise empty string>",
+    "longevity": "<only if score below 7: one concrete fix. Otherwise empty string>"
+  },
+  "total_score": <exact sum of all 5 scores as integer>,
+  "verdict": "<one sentence: is '${name}' an asset or a liability for ${who}. Then the single most urgent fix.>",
+  "direction": "<if total_score is under 35: three conceptual alternative name directions, one sentence each. If 35 or above: one sentence on how to sharpen '${name}'.>",
+  "closing_line": "<one punchy sentence in Daddy's voice, written specifically for this name and this situation>"
+}`;
 }
 
 function validateInputs(name,what,who){
