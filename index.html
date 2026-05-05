@@ -516,31 +516,52 @@ async function runTest(){
 }
 
 async function askBackend(prompt){
-  if(S.controller) S.controller.abort();
-  S.controller = new AbortController();
-  const timeout = setTimeout(() => S.controller.abort(), API_TIMEOUT);
+  const API_KEY = 'AIzaSyBG9h6avHmIU4zM-vpK-05psPbeInOyLdk';
+  const timeout = setTimeout(() => {throw new Error('Request timed out');}, 45000);
+  
   try {
-    const res = await fetch(API_ENDPOINT, {
+    const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`, {
       method:'POST',
       headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({ prompt }),
-      signal: S.controller.signal
+      body: JSON.stringify({
+        contents: [{ role: 'user', parts: [{ text: prompt }] }],
+        generationConfig: {
+          temperature: 0.9,
+          topP: 0.95,
+          topK: 40,
+          maxOutputTokens: 1600,
+          responseMimeType: 'application/json'
+        }
+      })
     });
-    let data = {};
-    try { data = await res.json(); } catch(e) { data = {}; }
-    if(!res.ok){
-      throw new Error(data.error || ('Request failed (' + res.status + ').'));
-    }
-    return data.text || data.output || '';
+    
+    const data = await res.json();
+    if(!res.ok){ throw new Error(data?.error?.message || 'Gemini request failed'); }
+    
+    let text = data?.candidates?.[0]?.content?.parts?.map(p => p.text || '').join('') || '';
+    
+    try {
+      const parsed = JSON.parse(text);
+      if (parsed && typeof parsed === 'object' && parsed.verdict) {
+        const dims = ['memorability', 'clarity', 'differentiation', 'tone_fit', 'longevity'];
+        const lines = dims.map(dim => {
+          const label = dim.replace('_', ' ').toUpperCase();
+          const score = parsed.scores?.[dim];
+          const diag = parsed.diagnosis?.[dim] || '';
+          const fix = parsed.micro_fix?.[dim] || '';
+          const fixLine = fix ? `\nMicro-fix: ${fix}` : '';
+          return `${label}\nScore: ${score}/10\n${diag}${fixLine}`;
+        });
+        
+        const total = parsed.total_score ?? dims.reduce((acc, d) => acc + (parsed.scores?.[d] || 0), 0);
+        text = [...lines, `TOTAL SCORE\n${total}/50`, `VERDICT\n${parsed.verdict || ''}`, `NAME DIRECTION\n${parsed.direction || ''}`, `CLOSING LINE\n${parsed.closing_line || ''}`].join('\n\n');
+      }
+    } catch (e) {}
+    
+    return text;
   } catch (err) {
-    if(err.name === 'AbortError') throw new Error('Request timed out. Your backend took too long.');
-    if(err.message === 'Failed to fetch'){
-      throw new Error('Cannot reach /api/name-test. Connect the backend proxy first.');
-    }
-    throw err;
-  } finally {
-    clearTimeout(timeout);
-  }
+    throw new Error(err.message || 'Request failed');
+  } finally { clearTimeout(timeout); }
 }
 
 function cleanModelText(txt){
