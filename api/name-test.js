@@ -1,4 +1,4 @@
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
@@ -38,7 +38,6 @@ export default async function handler(req, res) {
     );
 
     const data = await response.json();
-
     if (!response.ok) {
       const message = data?.error?.message || 'Gemini request failed';
       return res.status(response.status).json({ error: message });
@@ -60,7 +59,6 @@ export default async function handler(req, res) {
         });
 
         const total = parsed.total_score ?? dims.reduce((acc, d) => acc + (parsed.scores?.[d] || 0), 0);
-
         text = [
           ...lines,
           `TOTAL SCORE\n${total}/50`,
@@ -77,4 +75,4 @@ export default async function handler(req, res) {
   } catch (error) {
     return res.status(500).json({ error: error.message || 'Server error' });
   }
-}
+};
