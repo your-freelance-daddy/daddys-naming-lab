@@ -20,7 +20,7 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: 'Prompt is required' });
     }
     
-    const API_KEY = 'AIzaSyBG9h6avHmIU4zM-vpK-05psPbeInOyLdk';
+    const API_KEY = 'AIzaSyCgyGLLH5B4EsR4aVBt399LJRvq5kZJRsw';
     
     const response = await fetch(
       `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`,
