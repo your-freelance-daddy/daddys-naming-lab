@@ -1,52 +1,48 @@
 export default async function handler(req, res) {
-  // Set CORS headers
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   
-  // Handle preflight request
-  if (req.method === 'OPTIONS') {
-    return res.status(200).end();
-  }
-  
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
-  }
+  if (req.method === 'OPTIONS') return res.status(200).end();
+  if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
   
   try {
     const { prompt } = req.body;
+    if (!prompt) return res.status(400).json({ error: 'Prompt required' });
     
-    if (!prompt) {
-      return res.status(400).json({ error: 'Prompt is required' });
-    }
+    // Use Hugging Face free inference API
+    const HF_API = 'https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct-v0.2';
     
-    const API_KEY = 'AIzaSyCgyGLLH5B4EsR4aVBt399LJRvq5kZJRsw';
-    
-    const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          contents: [{ role: 'user', parts: [{ text: prompt }] }],
-          generationConfig: {
-            temperature: 0.9,
-            topP: 0.95,
-            topK: 40,
-            maxOutputTokens: 1600,
-            responseMimeType: 'application/json'
-          }
-        })
-      }
-    );
+    const response = await fetch(HF_API, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        inputs: prompt + '\n\nRespond in JSON format as requested.',
+        parameters: { 
+          max_new_tokens: 1500,
+          temperature: 0.9,
+          top_p: 0.95,
+          return_full_text: false
+        }
+      })
+    });
     
     const data = await response.json();
     
     if (!response.ok) {
-      return res.status(response.status).json({ error: data.error || 'API request failed' });
+      console.error('HF API error:', data);
+      return res.status(response.status).json({ error: data });
     }
     
-    return res.status(200).json(data);
+    // Format response to match Gemini structure
+    const text = data[0]?.generated_text || '';
+    return res.status(200).json({
+      candidates: [{
+        content: {
+          parts: [{ text }]
+        }
+      }]
+    });
   } catch (error) {
     console.error('Error:', error);
     return res.status(500).json({ error: 'Internal server error', message: error.message });
